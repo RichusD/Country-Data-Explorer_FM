@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     const getData = async () =>{
-          const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags")
+          const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area")
           //Add additional property to enable comparison feature
           const dataWithComp = response.data.map((c)=>{
             return {...c, compare: false}})

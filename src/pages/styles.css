@@ -268,6 +268,7 @@ article{
 
 
 .country-details-wrapper{
+    margin-top: 15px;
     display: flex;
 }
 
@@ -300,7 +301,11 @@ article{
 #country-title{
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    text-decoration: none;
+}
+
+sup{
+    font-size: 0.8rem;
 }
 
 .detail-div{
@@ -350,4 +355,103 @@ article{
     text-align: center;
     vertical-align: center;
     height: fit-content;
+}
+
+
+/* ##### SLIDER CSS ################################# */
+
+.slider-component{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.slider-wrapper{
+    width: 400px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.price-input{
+    width: 100%;
+    display: flex;
+    margin-bottom: 15px;
+    justify-content: space-between;
+}
+.price-input .field{
+    height: 45px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.field input{
+    width: 100px;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid grey;
+    outline: none;
+    font-size: 2rem;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+    appearance: none;
+}
+
+.slider{
+    height: 5px;
+    border-radius: 5px;
+    background-color: grey;
+    position: relative;
+    left:10px;
+    width: 98%
+}
+
+.slider .progress{
+    height: 5px;
+    background-color: aquamarine;
+    position: absolute;
+    border-radius: 5px;
+    left: 25%;
+    right: 25%;
+
+}
+
+.range-input{
+    position: relative;
+}
+
+.range-input input{
+    position: absolute;
+    top: -5px;
+    height: 5px;
+    width: 100%;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+
+}
+
+input[type="range"]::-webkit-slider-thumb{
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    background: aquamarine;
+}
+input[type="range"]::-moz-range-thumb{
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    pointer-events: auto;
+    -moz-appearance: none;
+    background: aquamarine;
 }

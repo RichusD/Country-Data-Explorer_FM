@@ -25,19 +25,23 @@ function Details () {
             <div className="all-content-container">
                 <img className="details-flag" src={countryData.flags.svg} alt={countryData.flags.alt}/>
                 <div className="main-details-wrapper">
-                    <h2 id="country-title">{countryData.name.common}</h2>
+                    <Link to={countryData.maps.googleMaps} target="_blank" id="country-title">{countryData.name.common}</Link>
                     <div className="country-details-wrapper">
                         <div className="left-details-wrapper">
                             <div className="detail-div"><p className="details-text-title">Native Name: </p><p className="details-text">{countryData.name.nativeName[Object.keys(countryData.name.nativeName)[0]].official}</p></div>
                             <div className="detail-div"><p className="details-text-title">Population: </p><p className="details-text">{countryData.population.toLocaleString("en-US")}</p></div>
                             <div className="detail-div"><p className="details-text-title">Region: </p><p className="details-text">{countryData.region}</p></div>
                             <div className="detail-div"><p className="details-text-title">Sub-region: </p><p className="details-text">{countryData.subregion}</p></div>
+                            <div className="detail-div"><p className="details-text-title">Area: </p><p className="details-text">{countryData.area.toLocaleString("en-US")} km<sup>2</sup></p></div>
                         </div>
                         <div className="right-details-wrapper">
                             <div className="detail-div"><p className="details-text-title">Capital: </p><p className="details-text">{countryData.capital.map((cap)=>`${cap}`).join(", ")}</p></div>
+                            <div className="detail-div"><p className="details-text-title">Driving Side: </p><p className="details-text">
+                                {countryData.car.side.charAt(0).toUpperCase() + countryData.car.side.slice(1)}
+                                </p></div>
                             <div className="detail-div"><p className="details-text-title">Top Level Domain: </p><p className="details-text">{countryData.tld}</p></div>
                             <div className="detail-div"><p className="details-text-title">Currencies: </p><p className="details-text">{Object.keys(countryData.currencies).map((curr)=>`${countryData.currencies[curr].name} (${countryData.currencies[curr].symbol})`).join(", ")}</p></div>
-                            <div className="detail-div"><p className="details-text-title">Languages: </p><p className="details-text">{Object.keys(countryData.languages).map((lang)=>`${countryData.languages[lang].toString()}`).join(", ")}</p></div>
+                            <div className="detail-div"><p className="details-text-title">Languages: </p><p className="details-text">{Object.keys(countryData.languages).map((lang)=>`${countryData.languages[lang]}`).join(", ")}</p></div>
                         </div> 
                     </div>
 
