@@ -1,4 +1,3 @@
-import Axios from "axios"
 import React, {useContext, useEffect, useState} from "react"
 
 import SearchFilter from "../components/SearchFilter"
