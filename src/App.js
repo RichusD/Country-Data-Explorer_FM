@@ -9,6 +9,7 @@ import CountriesPage from "./pages/CountriesPage";
 import ErrorPage from "./pages/ErrorPage"
 import AboutPage from "./pages/AboutPage";
 import Details from "./pages/Details"
+import testingData from "./utils/testingData";
 
 import { CountriesContext } from "./utils/Contexts";
 import { DarkLightModeContext } from "./utils/Contexts";
@@ -20,14 +21,16 @@ function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const getData = async () =>{
-          const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area")
-          //Add additional property to enable comparison feature
+    const getData = () =>{
+/*           const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area")
+          //Add additional property to enable comparison feature later on
           const dataWithComp = response.data.map((c)=>{
             return {...c, compare: false}})
           //Set the country data to that version of the data with that added property
           setCountriesData(dataWithComp)
           //Remove loading flag
+          setLoading(false) */
+          setCountriesData(testingData)
           setLoading(false)
     }
 

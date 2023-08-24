@@ -19,7 +19,6 @@
 .hide{
     display: none;
     opacity: 0;
-    transition: 5s;
 }
 
 
@@ -165,6 +164,8 @@ input:focus{
 
 }
 
+/* ##### FILTER CONTAINER ################################################### */
+
 .dropdown-container{
     position: absolute;
     top: 70px;
@@ -190,10 +191,51 @@ input:focus{
     border-radius: 5px;
 }
 
+/* ##### FILTER SIDEBAR ########################################################### */
+
+.filter-sidebar-container{
+    width: fit-content;
+    background-color: bisque;
+    position: fixed;
+    right:0;
+    top: 0;
+    height: 100%;
+    overflow-y: scroll;
+    z-index: 5;
+}
+
+.filter-sidebar-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0 2rem;
+    line-height: 3rem;
+    transition: 100ms;
+}
+.filter-sidebar-item:hover{
+    background-color: rgb(233, 233, 233);
+    border-radius: 5px;
+}
+.filter-options-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.darkness{
+    position: fixed;
+    z-index: 3;
+    top: 0%;
+    left: 0%;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+/* ##### COUNTRIES GRID & COUNTRY CARD ######################################### */
+
 #countries-grid{
     grid-area: content;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 2rem;
     margin: 0 var(--margin-push);
 }

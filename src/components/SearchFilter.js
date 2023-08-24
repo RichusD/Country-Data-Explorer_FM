@@ -2,6 +2,7 @@ import {BsChevronDown} from "react-icons/bs"
 
 import mg from "../images/mag-glass.png"
 import FilterDropdown from "./FilterDropdown"
+import FilterSidebar from "./FilterSidebar"
 import React from "react"
 
 function SearchFilter({
@@ -25,7 +26,7 @@ function SearchFilter({
         </div>
       
       <button onClick={() => setShowDropdown(!showDropdown)} id="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
-      <FilterDropdown showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
+      <FilterSidebar showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
     </div>
   );
 }

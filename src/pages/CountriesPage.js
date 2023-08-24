@@ -8,13 +8,86 @@ import { CountriesContext } from "../utils/Contexts"
 
 
 let regionList = []
-let drivingSideList = ["left", "right"]
 let languagesList = []
+let drivingSideList = ["left", "right"]
+let populationList = [
+  {
+    name:"0 - 10,000",
+    min:0,
+    max:10000,
+    checked: false
+  },
+  {
+    name:"10,001 - 100,000",
+    min:10001,
+    max:100000,
+    checked: false
+  },
+  {
+    name:"100,001 - 1,000,000",
+    min:100001,
+    max:1000000,
+    checked: false
+  },
+  {
+    name:"1,000,001 - 10,000,000",
+    min:1000001,
+    max:10000000,
+    checked: false
+  },
+  {
+    name:"10,000,001 - 100,000,000",
+    min:10000001,
+    max:100000000,
+    checked: false
+  },
+  {
+    name:"100,000,000+",
+    min:100000001,
+    max:Infinity,
+    checked: false
+  }
+]
+let areaList = [
+  {
+    name:"0 - 10,000",
+    min:0,
+    max:10000,
+    checked: false
+  },
+  {
+    name:"10,001 - 100,000",
+    min:10001,
+    max:100000,
+    checked: false
+  },
+  {
+    name:"100,001 - 1,000,000",
+    min:100001,
+    max:1000000,
+    checked: false
+  },
+  {
+    name:"1,000,001 - 10,000,000",
+    min:1000001,
+    max:10000000,
+    checked: false
+  },
+  {
+    name:"10,000,001+",
+    min:10000001,
+    max:Infinity,
+    checked: false
+  },
+
+]
+
+
 
 function CountriesPage() {
   const [countriesList, setCountriesList] = useState([])
   const [filterConditions, setFilterConditions] = useState({})
-  const [showDropdown, setShowDropdown] = useState(true)
+  const [showDropdown, setShowDropdown] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(true)
 
@@ -35,7 +108,7 @@ function CountriesPage() {
   useEffect(() => {
     //GENERATE FILTER OBJECT
     //This object can be expanded to allow other types of filtration
-    let workingList ={region:[],languages:[],drivingSide:[]}
+    let workingList ={region:[],languages:[],drivingSide:[],totalPopulation:[],totalArea:[]}
 
     regionList.map((region)=>{
       workingList.region.push({name:region, checked:false})
@@ -46,26 +119,49 @@ function CountriesPage() {
     drivingSideList.map((side)=>{
       workingList.drivingSide.push({name:side, checked:false})
     })
+    workingList.totalPopulation = [...populationList]
+    workingList.totalArea = [...areaList]
     setFilterConditions(workingList)
     setLoading(false)
   }, [regionList])
 
   //This handles the actual filter and search together
-  function filterAndSearch(currentSearchTerm,filterConditions){
+  function filterAndSearch(currentSearchTerm, filterConditions){
     //Create array to hold what will be the filtered list
     let newList = []
     //Create variable to hold the checked value on each filter
-    let allCheckedRegionValues = filterConditions.region.map((reg)=>reg.checked)
-    
+    let allCheckedValues = Object.keys(filterConditions).map((cat)=>{
+      return filterConditions[cat].map((el)=>el.checked)
+    }).flat()
+        
     //Check if no filters are selected
-    if (allCheckedRegionValues.every((v)=> v===false)){
+    if (allCheckedValues.every((v)=> v === false)){
       newList = countriesData
     } else {
     //If a filter is selected, find all countries that fit the filter and add it to the newList array
-    //Check by Region
-      filterConditions.region.map((reg)=>{
-        if (reg.checked){
-          newList = [...newList, ...countriesData.filter((country)=>(country.region === reg.name))]
+      filterConditions.region.map((e)=>{
+        if (e.checked){
+          newList = [...newList, ...countriesData.filter((country)=>(country.region === e.name))]
+        }
+      })
+      filterConditions.languages.map((e)=>{
+        if (e.checked){
+          newList = [...newList, ...countriesData.filter((country)=>(Object.values(country.languages).includes(e.name)))]
+        }
+      })
+      filterConditions.drivingSide.map((e)=>{
+        if (e.checked){
+          newList = [...newList, ...countriesData.filter((country)=>(country.car.side === e.name))]
+        }
+      })
+      filterConditions.totalPopulation.map((e)=>{
+        if (e.checked){
+          newList = [...newList, ...countriesData.filter((country)=>(country.population >= e.min && country.population <= e.max))]
+        }
+      })
+      filterConditions.totalArea.map((e)=>{
+        if (e.checked){
+          newList = [...newList, ...countriesData.filter((country)=>(country.area >= e.min && country.area <= e.max))]
         }
       })
     }
@@ -81,12 +177,38 @@ function CountriesPage() {
   }
 
   //This function handles the click on a filter
-  function handleFilterClick(clickName){
+  function handleFilterClick(event, clickName){
     //Finds the filter that was clicked and changes its checked value to true
     let regions = [...filterConditions.region]
-    let changeIndex = regions.findIndex((e)=> e.name === clickName)
-    regions[changeIndex].checked = !regions[changeIndex].checked
-    setFilterConditions(()=>{return {region:[...regions]}})
+    let langs = [...filterConditions.languages]
+    let driveSide = [...filterConditions.drivingSide]
+    let popul = [...filterConditions.totalPopulation]
+    let area = [...filterConditions.totalArea]
+
+    if (event.target.className.includes("region")){
+      let changeIndex = regions.findIndex((e)=> e.name === clickName)
+      regions[changeIndex].checked = !regions[changeIndex].checked
+    } else if (event.target.className.includes("languages")){
+      let changeIndex = langs.findIndex((e)=> e.name === clickName)
+      langs[changeIndex].checked = !langs[changeIndex].checked
+    } else if (event.target.className.includes("drivingSide")){
+      let changeIndex = driveSide.findIndex((e)=> e.name === clickName)
+      driveSide[changeIndex].checked = !driveSide[changeIndex].checked
+    } else if (event.target.className.includes("totalPopulation")){
+      let changeIndex = popul.findIndex((e)=> e.name === clickName)
+      popul[changeIndex].checked = !popul[changeIndex].checked
+    } else if (event.target.className.includes("totalArea")){
+      let changeIndex = area.findIndex((e)=> e.name === clickName)
+      area[changeIndex].checked = !area[changeIndex].checked
+    }
+    setFilterConditions({
+      region:regions,
+      languages:langs,
+      drivingSide:driveSide,
+      totalPopulation:popul,
+      totalArea:area
+    })
+    
     //Runs the filter & search function
     filterAndSearch(searchTerm,filterConditions)
     //Close Dropdown

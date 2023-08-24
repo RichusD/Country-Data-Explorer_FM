@@ -1,12 +1,14 @@
 /* Known issues:
+Increment division causing problems
 Validation needed to disallow letters in input fields for Mozilla
 Round numbers to nearest 100
 Validation works too quickly, need to give someone the chance to make a mistake first
+
 saksl */
 
 import { useState, useEffect } from "react"
 
-function Slider ({minValue, maxValue, minGap}) {
+function Slider ({minValue, maxValue, minGap,increment}) {
     const [minSliderValue, setMinSliderValue] = useState(minValue)
     const [maxSliderValue, setMaxSliderValue] = useState(maxValue)
     const barChange = {
@@ -16,20 +18,20 @@ function Slider ({minValue, maxValue, minGap}) {
 
     function handleValueChange (e){
             if(e.target.className ==="range-min"){
-                setMinSliderValue(Number(e.target.value))
+                setMinSliderValue(Math.round(Number(e.target.value)/increment)*100)
             } else if (e.target.className ==="range-max"){
-                setMaxSliderValue(Number(e.target.value))
+                setMaxSliderValue(Math.round(Number(e.target.value)/increment)*100)
             } else if (e.target.className ==="input-min"){
                 if(e.target.value < minValue){
                     setMinSliderValue(minValue)
                 } else{
-                setMinSliderValue(Number(e.target.value))
+                setMinSliderValue(Math.round(Number(e.target.value)/increment)*100)
                 }
             } else if (e.target.className ==="input-max"){
                 if(e.target.value > maxValue){
                     setMaxSliderValue(maxValue)
                 }else{
-                    setMaxSliderValue(Number(e.target.value))
+                    setMaxSliderValue(Math.round(Number(e.target.value)/increment)*100)
                 }
             }
         }
