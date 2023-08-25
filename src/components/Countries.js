@@ -1,11 +1,11 @@
 import CountryCard from "./CountryCard"
 
-function Countries({countries, loading}) {
+function Countries({countries, loading, handleComparison}) {
     let countrycards = ""
     if (countries.length === 0 && !loading){
         countrycards = 
             <div>
-                <p>Unable to find anything that meets your filters</p>
+                <p>Unable to find anything that meets your filters or search criteria</p>
             </div>
     } else {
         countrycards = countries.map((country)=>{
@@ -19,6 +19,8 @@ function Countries({countries, loading}) {
                     region={country.region}
                     capital={country.capital}
                     code={country.cca3}
+                    comparison={country.compare}
+                    handleComparison={handleComparison}
                 />
             )
         })

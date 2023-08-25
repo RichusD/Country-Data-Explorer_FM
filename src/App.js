@@ -21,7 +21,7 @@ function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const getData = () =>{
+    const getData = async () =>{
 /*           const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area")
           //Add additional property to enable comparison feature later on
           const dataWithComp = response.data.map((c)=>{
@@ -30,7 +30,9 @@ function App() {
           setCountriesData(dataWithComp)
           //Remove loading flag
           setLoading(false) */
-          setCountriesData(testingData)
+          const testingDataWithComp = testingData.map((c)=>{
+            return {...c, compare:false}})
+          setCountriesData(testingDataWithComp)
           setLoading(false)
     }
 
@@ -43,8 +45,8 @@ function App() {
 
 
   return !loading ? (    
-    <div id="master-container">
-      <CountriesContext.Provider value={{countriesData}}>
+    <div className="master-container">
+      <CountriesContext.Provider value={{countriesData, setCountriesData}}>
       <DarkLightModeContext.Provider value={{darkMode, setDarkMode}}>
         <BrowserRouter>
           <Routes>

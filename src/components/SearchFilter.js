@@ -26,7 +26,7 @@ function SearchFilter({
         </div>
       
       <button onClick={() => setShowDropdown(!showDropdown)} id="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
-      <FilterSidebar showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
+      <FilterSidebar setShowDropdown={setShowDropdown} showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import {TiTick} from "react-icons/ti"
 
-function FilterSidebar ({showDropdown, handleFilterClick,filterConditions}) {
+function FilterSidebar ({showDropdown, setShowDropdown, handleFilterClick,filterConditions}) {
     return ( 
-        <div className={!showDropdown ? "hide":"darkness"}>
+        <div className={!showDropdown ? "hide":"darkness"} onClick={()=> setShowDropdown(!showDropdown)}>
             <div className={!showDropdown ? "hide":"filter-sidebar-container"}>
                     {Object.keys(filterConditions).map((category)=>{
                         return (

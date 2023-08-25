@@ -4,8 +4,10 @@ import SearchFilter from "../components/SearchFilter"
 import Countries from "../components/Countries"
 
 import { CountriesContext } from "../utils/Contexts"
+import CompareWindow from "../components/CompareWindow"
 
 
+let comparedCountries = []
 
 let regionList = []
 let languagesList = []
@@ -84,14 +86,20 @@ let areaList = [
 
 
 
+
 function CountriesPage() {
   const [countriesList, setCountriesList] = useState([])
   const [filterConditions, setFilterConditions] = useState({})
   const [showDropdown, setShowDropdown] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(true)
+  const [showCompareWindow, setShowCompareWindow] = useState(true)
+  const [raiseCompareWindow, setRaiseCompareWindow] = useState(false)
 
-  const {countriesData} = useContext(CountriesContext)
+  
+
+  const {countriesData, setCountriesData} = useContext(CountriesContext)
+  
 
   //Generate a list of regions from the data to use in filters.
   useEffect(() => {
@@ -225,17 +233,49 @@ function CountriesPage() {
     filterAndSearch(currentSearchTerm, filterConditions)
   }
 
+  function handleComparison(name){
+    const dataCopy = [...countriesData]
+    const checkedCountryIndex = dataCopy.findIndex((country)=>country.name.common === name)
+    dataCopy[checkedCountryIndex].compare = !dataCopy[checkedCountryIndex].compare
+    if (dataCopy[checkedCountryIndex].compare){
+      comparedCountries.push(dataCopy[checkedCountryIndex])
+    } else if (!dataCopy[checkedCountryIndex].compare){
+      comparedCountries = comparedCountries.filter((country)=> country.name.common !== dataCopy[checkedCountryIndex].name.common)
+    }
+    if (comparedCountries.length > 0){
+      setShowCompareWindow(true)
+    } else {
+      setShowCompareWindow(false)
+    }
+
+    setCountriesData(dataCopy)
+    console.log(comparedCountries);
+    console.log(showCompareWindow);
+  }
+
   return !loading ? (
     <>
         <SearchFilter 
-            searchTerm={searchTerm}
-            handleSearch={handleSearch}
-            filterConditions={filterConditions}
-            showDropdown={showDropdown}
-            setShowDropdown={setShowDropdown}
-            handleFilterClick={handleFilterClick}
+          searchTerm={searchTerm}
+          handleSearch={handleSearch}
+          filterConditions={filterConditions}
+          showDropdown={showDropdown}
+          setShowDropdown={setShowDropdown}
+          handleFilterClick={handleFilterClick}
+            
         />
-        <Countries loading={loading} countries={countriesList}/>
+        <Countries 
+          loading={loading}
+          countries={countriesList}
+          handleComparison={handleComparison}
+          />
+        {showCompareWindow && 
+        <CompareWindow
+          comparedCountries={comparedCountries}
+          raiseCompareWindow={raiseCompareWindow}
+          setRaiseCompareWindow={setRaiseCompareWindow}
+        />
+        }
     </>
   ) : <span>Loading...</span>
 }

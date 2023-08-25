@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function CountryCard({flag, flagAlt, name, population, region, capital, code}) {
+function CountryCard({flag, flagAlt, name, population, region, capital, code, comparison, handleComparison}) {
 
 
   return (
@@ -11,6 +11,9 @@ function CountryCard({flag, flagAlt, name, population, region, capital, code}) {
             <p className="card-details"><span>Population: </span>{population.toLocaleString("en-US")}</p>
             <p className="card-details"><span>Region: </span>{region}</p>
             <p className="card-details"><span>Capital: </span>{capital.map((cap)=>`${cap}`).join(", ")}</p>
+            <div>
+              <p>Compare? </p><input type="checkbox" checked={comparison} onChange={()=> handleComparison(name)}></input>
+            </div>
         </div>
     </div>
   );
