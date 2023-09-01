@@ -142,6 +142,11 @@ input{
 input:focus{
     outline: none;
 }
+.filter-buttons-wrapper{
+    display: flex;
+    gap: 15px;
+}
+
 
 #filter-button{
     display: flex;
@@ -212,7 +217,9 @@ input:focus{
     padding: 0 2rem;
     line-height: 3rem;
     transition: 100ms;
+    cursor: pointer;
 }
+
 .filter-sidebar-item:hover{
     background-color: rgb(233, 233, 233);
     border-radius: 5px;
@@ -223,7 +230,7 @@ input:focus{
 }
 .darkness{
     position: fixed;
-    z-index: 3;
+    z-index: 1;
     top: 0%;
     left: 0%;
     height: 100vh;
@@ -508,9 +515,11 @@ input[type="range"]::-moz-range-thumb{
     background-color: var(--body-colour);
     height: 50px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border-radius: 10px 10px 0px 0px;
 }
 .comparison-window-active{
     position: fixed;
@@ -522,17 +531,82 @@ input[type="range"]::-moz-range-thumb{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    min-width: 35rem;
+    min-height: 35rem;
+    overflow-y: auto;
+    justify-content: space-evenly;
+    z-index: 5;
+    border-radius: 7px;
 }
 
 .comparison-heading{ 
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 2rem;
 }
-.comparison-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 2px,
-}
-.comparison-grid-tem{
 
+.comparison-table{
+    display: block;
+    position: relative;
+    border-collapse: collapse;
+    max-width: 80%;
+    width: fit-content;
+    height: 75%;
+    overflow: auto;
+    background-color: #eaeaea;
+    border-radius: 6px;
+}
+
+.comparison-table thead tr,
+.comparison-table-first-column{
+    position: sticky;
+    background-color: #929292;
+    color: white;
+    font-weight: 700;
+}
+.comparison-table thead tr{
+    top:0;
+}
+
+.comparison-table-first-column{
+    left:0;
+}
+
+.comparison-table th,
+.comparison-table td{
+    padding: 1rem;
+}
+.comparison-table tr:nth-child(2n){
+    background: hsl(0 0% 0% / 0.03)
+}
+.comparison-table td:nth-child(2n){
+    background: rgba(242, 242, 242, 0.4);
+}
+
+.comparison-flag{
+    width: 100%;
+    height: 100%;
+    min-width: 200px;
+}
+
+.comparison-table-close-button{
+    width: 15rem;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: white;
+    border: none;
+    box-shadow: var(--shadow-setting);
+    cursor: pointer;
+}
+
+.clear-comparison-button{
+    padding: 15px;
+    width: 15rem;
+    border-radius: 5px;
+    background-color: rgb(255, 97, 97);
+    color: white;
+    font-weight: 700;
+    border: none;
+    box-shadow: var(--shadow-setting);
+    cursor: pointer;
 }

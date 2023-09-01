@@ -1,13 +1,10 @@
-import React, {useContext, useEffect, useState} from "react"
+import React, {useContext, useEffect, useRef, useState} from "react"
 
 import SearchFilter from "../components/SearchFilter"
 import Countries from "../components/Countries"
 
-import { CountriesContext } from "../utils/Contexts"
+import { ComparedCountriesContext, CountriesContext } from "../utils/Contexts"
 import CompareWindow from "../components/CompareWindow"
-
-
-let comparedCountries = []
 
 let regionList = []
 let languagesList = []
@@ -93,11 +90,10 @@ function CountriesPage() {
   const [showDropdown, setShowDropdown] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(true)
-  const [showCompareWindow, setShowCompareWindow] = useState(true)
+  const [showCompareWindow, setShowCompareWindow] = useState(false)
   const [raiseCompareWindow, setRaiseCompareWindow] = useState(false)
 
-  
-
+  const {comparedCountries, setComparedCountries} = useContext(ComparedCountriesContext)
   const {countriesData, setCountriesData} = useContext(CountriesContext)
   
 
@@ -238,30 +234,39 @@ function CountriesPage() {
     const checkedCountryIndex = dataCopy.findIndex((country)=>country.name.common === name)
     dataCopy[checkedCountryIndex].compare = !dataCopy[checkedCountryIndex].compare
     if (dataCopy[checkedCountryIndex].compare){
-      comparedCountries.push(dataCopy[checkedCountryIndex])
+      setComparedCountries((prev)=> [...prev, dataCopy[checkedCountryIndex]])
     } else if (!dataCopy[checkedCountryIndex].compare){
-      comparedCountries = comparedCountries.filter((country)=> country.name.common !== dataCopy[checkedCountryIndex].name.common)
+      setComparedCountries(comparedCountries.filter((country)=> country.name.common !== dataCopy[checkedCountryIndex].name.common))
     }
-    if (comparedCountries.length > 0){
+    setCountriesData(dataCopy)
+  }
+  useEffect(()=>{
+    if (comparedCountries.length >= 2){
       setShowCompareWindow(true)
     } else {
       setShowCompareWindow(false)
     }
+  },[comparedCountries])
 
-    setCountriesData(dataCopy)
-    console.log(comparedCountries);
-    console.log(showCompareWindow);
+  function handleClearComparisons (){
+    const clearedData = countriesData.map((country)=>{return{...country, compare:false}})
+    setCountriesData(clearedData)
+    setCountriesList(clearedData)
+    setComparedCountries([])
+
   }
 
   return !loading ? (
     <>
         <SearchFilter 
+          showCompareWindow={showCompareWindow}
           searchTerm={searchTerm}
           handleSearch={handleSearch}
           filterConditions={filterConditions}
           showDropdown={showDropdown}
           setShowDropdown={setShowDropdown}
           handleFilterClick={handleFilterClick}
+          handleClearComparisons={handleClearComparisons}
             
         />
         <Countries 
@@ -271,7 +276,6 @@ function CountriesPage() {
           />
         {showCompareWindow && 
         <CompareWindow
-          comparedCountries={comparedCountries}
           raiseCompareWindow={raiseCompareWindow}
           setRaiseCompareWindow={setRaiseCompareWindow}
         />

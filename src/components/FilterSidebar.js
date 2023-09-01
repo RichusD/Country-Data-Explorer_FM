@@ -13,14 +13,14 @@ function FilterSidebar ({showDropdown, setShowDropdown, handleFilterClick,filter
                                         if (r.checked) {
                                             return (
                                                 <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item ${category}`}>
-                                                    <li key={Math.random()}>{r.name}</li>
-                                                    <TiTick key={Math.random()} />
+                                                    <li key={Math.random()} className={category}>{r.name}</li>
+                                                    <TiTick key={Math.random()} className={category}/>
                                                 </div>
                                             )
                                         } else{
                                             return (
                                                 <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item ${category}`}>
-                                                    <li key={Math.random()}>{r.name}</li>
+                                                    <li key={Math.random()} className={category}>{r.name}</li>
                                                 </div>
                                             )
                                         }            

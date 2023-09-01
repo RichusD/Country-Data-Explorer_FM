@@ -1,17 +1,18 @@
 import {BsChevronDown} from "react-icons/bs"
 
 import mg from "../images/mag-glass.png"
-import FilterDropdown from "./FilterDropdown"
 import FilterSidebar from "./FilterSidebar"
 import React from "react"
 
 function SearchFilter({
+  showCompareWindow,
   showDropdown, 
   setShowDropdown, 
   handleFilterClick, 
   filterConditions, 
   searchText, 
-  handleSearch
+  handleSearch,
+  handleClearComparisons
 }) {
 
   return (
@@ -24,8 +25,10 @@ function SearchFilter({
               onChange={(e)=> handleSearch(e)}
               />
         </div>
-      
-      <button onClick={() => setShowDropdown(!showDropdown)} id="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
+      <div className="filter-buttons-wrapper">
+        {showCompareWindow && <button onClick={() => handleClearComparisons()} className="clear-comparison-button">Clear Comparisons</button>}
+        <button onClick={() => setShowDropdown(!showDropdown)} id="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
+      </div>
       <FilterSidebar setShowDropdown={setShowDropdown} showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
     </div>
   );
