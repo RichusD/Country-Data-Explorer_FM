@@ -1,14 +1,12 @@
 import { useContext } from "react"
 import "../pages/styles.css"
 import { ComparedCountriesContext, CountriesContext } from "../utils/Contexts"
+import { capitalise } from "../utils/sharedFunctions"
 
 function CompareWindow ({raiseCompareWindow, setRaiseCompareWindow}) {
     const {countriesData} = useContext(CountriesContext)
     const {comparedCountries} = useContext(ComparedCountriesContext)
 
-    function capitalise (string){
-        return string.charAt(0).toUpperCase() + string.slice(1)
-    }
 /* Encountered a weird error where if I used setRaiseCompareWindow(true) to set the raiseCompareWindow variable, it would work once and wouldn't
 change again if a button did the opposite. I had to change setRaiseCompareWindow(true) to setRaiseCompareWindow(!raiseCompareWindow) for the
 button to work. No idea why but a button that just used (false) would not work under any circumstances.*/

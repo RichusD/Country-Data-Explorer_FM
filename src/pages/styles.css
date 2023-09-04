@@ -6,6 +6,7 @@
 
     --text-color: rgb(111, 111, 111);
     --dark-mode-bg: grey;
+    --highlight-red: #ff4646;
 
 }
 
@@ -19,6 +20,11 @@
 .hide{
     display: none;
     opacity: 0;
+}
+
+html,
+body{
+    height: 100%;
 }
 
 
@@ -92,6 +98,8 @@ nav {
     width: 15px;
     margin-right: 5px;
 }
+
+/* ##### FOOTER ############################################################### */
 
 footer {
     grid-area: footer;
@@ -200,16 +208,18 @@ input:focus{
 
 .filter-sidebar-container{
     width: fit-content;
-    background-color: bisque;
+    background-color: white;
     position: fixed;
     right:0;
     top: 0;
     height: 100%;
     overflow-y: scroll;
     z-index: 5;
+    box-shadow: var(--shadow-setting)
 }
 
-.filter-sidebar-item{
+.filter-sidebar-item,
+.filter-sidebar-item-selected{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -218,6 +228,19 @@ input:focus{
     line-height: 3rem;
     transition: 100ms;
     cursor: pointer;
+}
+.filter-sidebar-item-selected{
+    background-color: var(--highlight-red);
+    color:white;
+}
+
+
+
+.filter-category{
+    padding: 7px 15px;
+    background-color: var(--body-colour);
+    font-size: 1.8rem;
+    font-weight: 700;
 }
 
 .filter-sidebar-item:hover{
@@ -603,7 +626,7 @@ input[type="range"]::-moz-range-thumb{
     padding: 15px;
     width: 15rem;
     border-radius: 5px;
-    background-color: rgb(255, 97, 97);
+    background-color: var(--highlight-red);
     color: white;
     font-weight: 700;
     border: none;

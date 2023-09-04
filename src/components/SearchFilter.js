@@ -12,7 +12,9 @@ function SearchFilter({
   filterConditions, 
   searchText, 
   handleSearch,
-  handleClearComparisons
+  handleClearComparisons,
+  filterActive,
+  handleClearFilters
 }) {
 
   return (
@@ -26,6 +28,7 @@ function SearchFilter({
               />
         </div>
       <div className="filter-buttons-wrapper">
+        {filterActive && <button onClick={() => handleClearFilters()} className="clear-comparison-button">Clear Active Filters</button>}
         {showCompareWindow && <button onClick={() => handleClearComparisons()} className="clear-comparison-button">Clear Comparisons</button>}
         <button onClick={() => setShowDropdown(!showDropdown)} id="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
       </div>

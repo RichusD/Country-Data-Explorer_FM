@@ -92,6 +92,7 @@ function CountriesPage() {
   const [loading, setLoading] = useState(true)
   const [showCompareWindow, setShowCompareWindow] = useState(false)
   const [raiseCompareWindow, setRaiseCompareWindow] = useState(false)
+  const [filterActive, setFilterActive] = useState(false)
 
   const {comparedCountries, setComparedCountries} = useContext(ComparedCountriesContext)
   const {countriesData, setCountriesData} = useContext(CountriesContext)
@@ -99,7 +100,7 @@ function CountriesPage() {
 
   //Generate a list of regions from the data to use in filters.
   useEffect(() => {
-      setCountriesList(countriesData)
+      setCountriesList([...countriesData])
       countriesData.forEach((country)=> {
           regionList = [...regionList, country.region]
           languagesList = [...languagesList, ...Object.keys(country.languages).map((lang)=>`${country.languages[lang]}`)]
@@ -109,11 +110,9 @@ function CountriesPage() {
   }, [])
 
   //Once we have a list of regions, we can create a filter with it
-  useEffect(() => {
-    //GENERATE FILTER OBJECT
-    //This object can be expanded to allow other types of filtration
+  function generateFilter(regionList,languagesList,drivingSideList,populationList,areaList){
     let workingList ={region:[],languages:[],drivingSide:[],totalPopulation:[],totalArea:[]}
-
+  
     regionList.map((region)=>{
       workingList.region.push({name:region, checked:false})
     })
@@ -125,9 +124,17 @@ function CountriesPage() {
     })
     workingList.totalPopulation = [...populationList]
     workingList.totalArea = [...areaList]
-    setFilterConditions(workingList)
+
+    return workingList
+  }
+  useEffect(() => {
+    //GENERATE FILTER OBJECT
+    //This object can be expanded to allow other types of filtration
+
+    setFilterConditions(generateFilter(regionList,languagesList,drivingSideList,populationList,areaList))
     setLoading(false)
   }, [regionList])
+
 
   //This handles the actual filter and search together
   function filterAndSearch(currentSearchTerm, filterConditions){
@@ -140,8 +147,10 @@ function CountriesPage() {
         
     //Check if no filters are selected
     if (allCheckedValues.every((v)=> v === false)){
-      newList = countriesData
+      newList = [...countriesData]
+      setFilterActive(false)
     } else {
+      setFilterActive(true)
     //If a filter is selected, find all countries that fit the filter and add it to the newList array
       filterConditions.region.map((e)=>{
         if (e.checked){
@@ -228,9 +237,9 @@ function CountriesPage() {
     //Runs the filter & search function
     filterAndSearch(currentSearchTerm, filterConditions)
   }
-
+  /* This handles where a comparison tickbox is clicked. It finds the country that was clicked,  */
   function handleComparison(name){
-    const dataCopy = [...countriesData]
+    const dataCopy = [...countriesList]
     const checkedCountryIndex = dataCopy.findIndex((country)=>country.name.common === name)
     dataCopy[checkedCountryIndex].compare = !dataCopy[checkedCountryIndex].compare
     if (dataCopy[checkedCountryIndex].compare){
@@ -238,8 +247,8 @@ function CountriesPage() {
     } else if (!dataCopy[checkedCountryIndex].compare){
       setComparedCountries(comparedCountries.filter((country)=> country.name.common !== dataCopy[checkedCountryIndex].name.common))
     }
-    setCountriesData(dataCopy)
   }
+  /* Once countries have been ticked, check to see if at least two have been chosen, and show the compare window if so */
   useEffect(()=>{
     if (comparedCountries.length >= 2){
       setShowCompareWindow(true)
@@ -248,13 +257,32 @@ function CountriesPage() {
     }
   },[comparedCountries])
 
+  //Button function to clear the comparison checkmarks
   function handleClearComparisons (){
     const clearedData = countriesData.map((country)=>{return{...country, compare:false}})
+    console.log(clearedData)
     setCountriesData(clearedData)
-    setCountriesList(clearedData)
     setComparedCountries([])
-
   }
+  /* The below useEffect was needed to deal with another odd bug. Despite both countriesData and countriesList previously being set to
+  clearedData above, the second one appeared to not fire. It wasn't that it fired too slowly; I checked and saw that the data was
+  unchanged using test buttons well after I would've expected the operation to complete. The comparedCountries one worked fine.
+  As the above code is the only place where setCountriesData is used (other than on App load) this workaround appears to work.*/
+  useEffect(()=>{
+    setCountriesList(countriesData)
+    filterAndSearch(searchTerm, filterConditions)
+  },[countriesData])
+  
+  function handleClearFilters (){
+    setFilterActive(false)
+    setFilterConditions(()=> generateFilter(regionList,languagesList,drivingSideList,populationList,areaList))
+  }
+  useEffect(()=>{
+    if (!filterActive){
+      filterAndSearch(searchTerm,filterConditions)
+    }
+  },[filterConditions])
+  
 
   return !loading ? (
     <>
@@ -267,19 +295,22 @@ function CountriesPage() {
           setShowDropdown={setShowDropdown}
           handleFilterClick={handleFilterClick}
           handleClearComparisons={handleClearComparisons}
-            
+          filterActive={filterActive}
+          handleClearFilters={handleClearFilters}
         />
+
         <Countries 
           loading={loading}
           countries={countriesList}
           handleComparison={handleComparison}
           />
+
         {showCompareWindow && 
         <CompareWindow
           raiseCompareWindow={raiseCompareWindow}
           setRaiseCompareWindow={setRaiseCompareWindow}
-        />
-        }
+        />}
+
     </>
   ) : <span>Loading...</span>
 }

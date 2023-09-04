@@ -1,4 +1,5 @@
 import {TiTick} from "react-icons/ti"
+import { capitalise } from "../utils/sharedFunctions"
 
 function FilterSidebar ({showDropdown, setShowDropdown, handleFilterClick,filterConditions}) {
     return ( 
@@ -7,20 +8,20 @@ function FilterSidebar ({showDropdown, setShowDropdown, handleFilterClick,filter
                     {Object.keys(filterConditions).map((category)=>{
                         return (
                             <div>
-                                <h2>{category.toUpperCase()}</h2>
+                                <h2 className="filter-category">{category.toUpperCase()}</h2>
                                 <div className="filter-options-container">
                                     {filterConditions[category].map((r)=>{
                                         if (r.checked) {
                                             return (
-                                                <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item ${category}`}>
-                                                    <li key={Math.random()} className={category}>{r.name}</li>
+                                                <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item-selected ${category}`}>
+                                                    <li key={Math.random()} className={category}>{capitalise(r.name)}</li>
                                                     <TiTick key={Math.random()} className={category}/>
                                                 </div>
                                             )
                                         } else{
                                             return (
                                                 <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item ${category}`}>
-                                                    <li key={Math.random()} className={category}>{r.name}</li>
+                                                    <li key={Math.random()} className={category}>{capitalise(r.name)}</li>
                                                 </div>
                                             )
                                         }            

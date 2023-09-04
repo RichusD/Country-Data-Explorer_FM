@@ -3,6 +3,7 @@ import { Link, useParams, useLocation } from "react-router-dom"
 import {BsArrowLeft} from "react-icons/bs"
 
 import { CountriesContext } from "../utils/Contexts"
+import { capitalise } from "../utils/sharedFunctions"
 import "./styles.css"
 
 function Details () {
@@ -37,7 +38,7 @@ function Details () {
                         <div className="right-details-wrapper">
                             <div className="detail-div"><p className="details-text-title">Capital: </p><p className="details-text">{countryData.capital.map((cap)=>`${cap}`).join(", ")}</p></div>
                             <div className="detail-div"><p className="details-text-title">Driving Side: </p><p className="details-text">
-                                {countryData.car.side.charAt(0).toUpperCase() + countryData.car.side.slice(1)}
+                                {capitalise(countryData.car.side)}
                                 </p></div>
                             <div className="detail-div"><p className="details-text-title">Top Level Domain: </p><p className="details-text">{countryData.tld}</p></div>
                             <div className="detail-div"><p className="details-text-title">Currencies: </p><p className="details-text">{Object.keys(countryData.currencies).map((curr)=>`${countryData.currencies[curr].name} (${countryData.currencies[curr].symbol})`).join(", ")}</p></div>
