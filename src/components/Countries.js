@@ -1,14 +1,14 @@
 import CountryCard from "./CountryCard"
 
-function Countries({countries, loading, handleComparison}) {
+function Countries({displayedCountries, loading, handleComparison}) {
     let countrycards = ""
-    if (countries.length === 0 && !loading){
+    if (displayedCountries.length === 0 && !loading){
         countrycards = 
             <div>
                 <p>Unable to find anything that meets your filters or search criteria</p>
             </div>
     } else {
-        countrycards = countries.map((country)=>{
+        countrycards = displayedCountries.map((country)=>{
             return(
                 <CountryCard 
                     key={Math.random()}

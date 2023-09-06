@@ -11,3 +11,6 @@ export const ComparedCountriesContext = createContext({})
 
 //We also need the current filter object to persist between routes
 export const FiltersContext = createContext({})
+
+//We also need the displayed countries to persist between routes
+export const DisplayedCountriesContext = createContext({})

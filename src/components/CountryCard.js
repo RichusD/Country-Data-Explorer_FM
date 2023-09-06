@@ -11,8 +11,9 @@ function CountryCard({flag, flagAlt, name, population, region, capital, code, co
             <p className="card-details"><span>Population: </span>{population.toLocaleString("en-US")}</p>
             <p className="card-details"><span>Region: </span>{region}</p>
             <p className="card-details"><span>Capital: </span>{capital.map((cap)=>`${cap}`).join(", ")}</p>
-            <div>
-              <p>Compare? </p><input type="checkbox" checked={comparison} onChange={()=> handleComparison(name)}></input>
+            <div className="blackline"> </div>
+            <div className="card-details card-details-checkbox">
+              <p><span>Compare? </span></p><input type="checkbox" checked={comparison} onChange={()=> handleComparison(name)}></input>
             </div>
         </div>
     </div>

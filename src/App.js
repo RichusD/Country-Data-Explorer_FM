@@ -11,14 +11,21 @@ import AboutPage from "./pages/AboutPage";
 import Details from "./pages/Details"
 import testingData from "./utils/testingData";
 
-import { CountriesContext } from "./utils/Contexts";
-import { DarkLightModeContext } from "./utils/Contexts";
-import { ComparedCountriesContext } from "./utils/Contexts";
+import { 
+  CountriesContext,
+  DarkLightModeContext,
+  ComparedCountriesContext,
+  DisplayedCountriesContext,
+  FiltersContext
+} from "./utils/Contexts";
+
 
 
 function App() {
   const [countriesData, setCountriesData] = useState([])
   const [comparedCountries, setComparedCountries] = useState([])
+  const [displayedCountries, setDisplayedCountries] = useState([])
+  const [filterConditions, setFilterConditions] = useState({})
   const [darkMode, setDarkMode] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -45,12 +52,20 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const copiedList = countriesData.map((countrydata)=>{return {...countrydata}})
+    setDisplayedCountries(copiedList)
+
+}, [])
+
 
   return !loading ? (    
     <div className="master-container">
       <CountriesContext.Provider value={{countriesData, setCountriesData}}>
       <ComparedCountriesContext.Provider value={{comparedCountries, setComparedCountries}}>
       <DarkLightModeContext.Provider value={{darkMode, setDarkMode}}>
+      <DisplayedCountriesContext.Provider value={{displayedCountries, setDisplayedCountries}}>
+      <FiltersContext.Provider value={{filterConditions, setFilterConditions}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SharedLayout/>}>
@@ -62,6 +77,8 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+      </FiltersContext.Provider>
+      </DisplayedCountriesContext.Provider>
       </DarkLightModeContext.Provider>
       </ComparedCountriesContext.Provider>
       </CountriesContext.Provider>

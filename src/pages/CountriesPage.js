@@ -1,92 +1,23 @@
-import React, {useContext, useEffect, useRef, useState} from "react"
+import {React, useContext, useEffect, useState} from "react"
 
 import SearchFilter from "../components/SearchFilter"
 import Countries from "../components/Countries"
-
-import { ComparedCountriesContext, CountriesContext } from "../utils/Contexts"
 import CompareWindow from "../components/CompareWindow"
 
-let regionList = []
-let languagesList = []
-let drivingSideList = ["left", "right"]
-let populationList = [
-  {
-    name:"0 - 10,000",
-    min:0,
-    max:10000,
-    checked: false
-  },
-  {
-    name:"10,001 - 100,000",
-    min:10001,
-    max:100000,
-    checked: false
-  },
-  {
-    name:"100,001 - 1,000,000",
-    min:100001,
-    max:1000000,
-    checked: false
-  },
-  {
-    name:"1,000,001 - 10,000,000",
-    min:1000001,
-    max:10000000,
-    checked: false
-  },
-  {
-    name:"10,000,001 - 100,000,000",
-    min:10000001,
-    max:100000000,
-    checked: false
-  },
-  {
-    name:"100,000,000+",
-    min:100000001,
-    max:Infinity,
-    checked: false
-  }
-]
-let areaList = [
-  {
-    name:"0 - 10,000",
-    min:0,
-    max:10000,
-    checked: false
-  },
-  {
-    name:"10,001 - 100,000",
-    min:10001,
-    max:100000,
-    checked: false
-  },
-  {
-    name:"100,001 - 1,000,000",
-    min:100001,
-    max:1000000,
-    checked: false
-  },
-  {
-    name:"1,000,001 - 10,000,000",
-    min:1000001,
-    max:10000000,
-    checked: false
-  },
-  {
-    name:"10,000,001+",
-    min:10000001,
-    max:Infinity,
-    checked: false
-  },
+import { 
+  ComparedCountriesContext,
+  CountriesContext,
+  DisplayedCountriesContext,
+  FiltersContext
+} from "../utils/Contexts"
 
-]
-
-
-
+import {
+  drivingSideList,
+  populationList,
+  areaList
+} from "../utils/filterArrays"
 
 function CountriesPage() {
-  const [countriesList, setCountriesList] = useState([])
-  const [filterConditions, setFilterConditions] = useState({})
   const [showDropdown, setShowDropdown] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(true)
@@ -95,26 +26,44 @@ function CountriesPage() {
   const [filterActive, setFilterActive] = useState(false)
 
   const {comparedCountries, setComparedCountries} = useContext(ComparedCountriesContext)
-  const {countriesData, setCountriesData} = useContext(CountriesContext)
+  const {countriesData} = useContext(CountriesContext)
+  const {displayedCountries, setDisplayedCountries} = useContext(DisplayedCountriesContext)
+  const {filterConditions, setFilterConditions} = useContext(FiltersContext)
   
 
   //Generate a list of regions from the data to use in filters.
-  useEffect(() => {
-      setCountriesList([...countriesData])
-      countriesData.forEach((country)=> {
-          regionList = [...regionList, country.region]
-          languagesList = [...languagesList, ...Object.keys(country.languages).map((lang)=>`${country.languages[lang]}`)]
-      })
-      regionList = [...new Set(regionList)]
-      languagesList = [...new Set(languagesList)]
-  }, [])
-
   //Once we have a list of regions, we can create a filter with it
-  function generateFilter(regionList,languagesList,drivingSideList,populationList,areaList){
-    let workingList ={region:[],languages:[],drivingSide:[],totalPopulation:[],totalArea:[]}
+  useEffect(() => {
+    setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
+    setLoading(false)
+  }, [])
   
+  
+  //GENERATE FILTER OBJECT
+  //This object can be expanded to allow other types of filtration
+  function generateFilter(countriesData,drivingSideList,populationList,areaList){
+    let workingList ={region:[],subregion:[],languages:[],drivingSide:[],totalPopulation:[],totalArea:[]}
+    let regionList = []
+    let subregionList = []
+    let languagesList = []
+    
+    countriesData.forEach((country)=>{
+      regionList.push(country.region)
+      subregionList.push(country.subregion)
+      languagesList.push(Object.keys(country.languages).map((lang)=>`${country.languages[lang]}`))
+    })
+    
+    regionList = [...new Set(regionList.sort())]
+    subregionList = [...new Set(subregionList.sort())]
+    languagesList = [...new Set(languagesList.flat().sort())]
+
+    
     regionList.map((region)=>{
       workingList.region.push({name:region, checked:false})
+    })
+    subregionList.map((subregion)=>{
+      if (subregion !== ""){
+      workingList.subregion.push({name:subregion, checked:false})}
     })
     languagesList.map((lang)=>{
       workingList.languages.push({name:lang, checked:false})
@@ -122,59 +71,57 @@ function CountriesPage() {
     drivingSideList.map((side)=>{
       workingList.drivingSide.push({name:side, checked:false})
     })
-    workingList.totalPopulation = [...populationList]
-    workingList.totalArea = [...areaList]
-
+    populationList.map((pop)=>{
+      workingList.totalPopulation.push({...pop})
+    })
+    areaList.map((area)=>{
+      workingList.totalArea.push({...area})
+    })
     return workingList
   }
-  useEffect(() => {
-    //GENERATE FILTER OBJECT
-    //This object can be expanded to allow other types of filtration
-
-    setFilterConditions(generateFilter(regionList,languagesList,drivingSideList,populationList,areaList))
-    setLoading(false)
-  }, [regionList])
-
 
   //This handles the actual filter and search together
   function filterAndSearch(currentSearchTerm, filterConditions){
     //Create array to hold what will be the filtered list
-    let newList = []
+    let newList = countriesData.map((countrydata)=>{return {...countrydata}})
     //Create variable to hold the checked value on each filter
     let allCheckedValues = Object.keys(filterConditions).map((cat)=>{
       return filterConditions[cat].map((el)=>el.checked)
     }).flat()
-        
     //Check if no filters are selected
     if (allCheckedValues.every((v)=> v === false)){
-      newList = [...countriesData]
       setFilterActive(false)
     } else {
       setFilterActive(true)
     //If a filter is selected, find all countries that fit the filter and add it to the newList array
       filterConditions.region.map((e)=>{
         if (e.checked){
-          newList = [...newList, ...countriesData.filter((country)=>(country.region === e.name))]
+          newList = [...newList.filter((country)=>(country.region === e.name))]
+        }
+      })
+      filterConditions.subregion.map((e)=>{
+        if (e.checked){
+          newList = [...newList.filter((country)=>(country.subregion === e.name))]
         }
       })
       filterConditions.languages.map((e)=>{
         if (e.checked){
-          newList = [...newList, ...countriesData.filter((country)=>(Object.values(country.languages).includes(e.name)))]
+          newList = [...newList.filter((country)=>(Object.values(country.languages).includes(e.name)))]
         }
       })
       filterConditions.drivingSide.map((e)=>{
         if (e.checked){
-          newList = [...newList, ...countriesData.filter((country)=>(country.car.side === e.name))]
+          newList = [...newList.filter((country)=>(country.car.side === e.name))]
         }
       })
       filterConditions.totalPopulation.map((e)=>{
         if (e.checked){
-          newList = [...newList, ...countriesData.filter((country)=>(country.population >= e.min && country.population <= e.max))]
+          newList = [...newList.filter((country)=>(country.population >= e.min && country.population <= e.max))]
         }
       })
       filterConditions.totalArea.map((e)=>{
         if (e.checked){
-          newList = [...newList, ...countriesData.filter((country)=>(country.area >= e.min && country.area <= e.max))]
+          newList = [...newList.filter((country)=>(country.area >= e.min && country.area <= e.max))]
         }
       })
     }
@@ -186,36 +133,48 @@ function CountriesPage() {
       })
     } 
     //Finally, set the countries list to this filtered list of countries, so we can see it on screen
-    setCountriesList(newList)
+    setDisplayedCountries(newList)
   }
 
   //This function handles the click on a filter
   function handleFilterClick(event, clickName){
     //Finds the filter that was clicked and changes its checked value to true
     let regions = [...filterConditions.region]
+    let subr = [...filterConditions.subregion]
     let langs = [...filterConditions.languages]
     let driveSide = [...filterConditions.drivingSide]
     let popul = [...filterConditions.totalPopulation]
     let area = [...filterConditions.totalArea]
-
-    if (event.target.className.includes("region")){
+      /* You use currentTarget here as the options under the filter are contained within a div, which contains the option as an li and
+      a tick svg icon. currentTarget will refer to the target which has the event listener attached (i.e. the one with the onClick). target
+      will refer to the element that was clicked, which could be the li or icon itself, which would cause bugs. */
+    if (event.currentTarget.className.includes(" region")){
       let changeIndex = regions.findIndex((e)=> e.name === clickName)
       regions[changeIndex].checked = !regions[changeIndex].checked
-    } else if (event.target.className.includes("languages")){
+
+    } else if (event.currentTarget.className.includes(" subregion")){
+      let changeIndex = subr.findIndex((e)=> e.name === clickName)
+      subr[changeIndex].checked = !subr[changeIndex].checked
+
+    } else if (event.currentTarget.className.includes(" languages")){
       let changeIndex = langs.findIndex((e)=> e.name === clickName)
       langs[changeIndex].checked = !langs[changeIndex].checked
-    } else if (event.target.className.includes("drivingSide")){
+
+    } else if (event.currentTarget.className.includes(" drivingSide")){
       let changeIndex = driveSide.findIndex((e)=> e.name === clickName)
       driveSide[changeIndex].checked = !driveSide[changeIndex].checked
-    } else if (event.target.className.includes("totalPopulation")){
+
+    } else if (event.currentTarget.className.includes(" totalPopulation")){
       let changeIndex = popul.findIndex((e)=> e.name === clickName)
       popul[changeIndex].checked = !popul[changeIndex].checked
-    } else if (event.target.className.includes("totalArea")){
+
+    } else if (event.currentTarget.className.includes(" totalArea")){
       let changeIndex = area.findIndex((e)=> e.name === clickName)
       area[changeIndex].checked = !area[changeIndex].checked
     }
     setFilterConditions({
       region:regions,
+      subregion:subr,
       languages:langs,
       drivingSide:driveSide,
       totalPopulation:popul,
@@ -239,7 +198,7 @@ function CountriesPage() {
   }
   /* This handles where a comparison tickbox is clicked. It finds the country that was clicked,  */
   function handleComparison(name){
-    const dataCopy = [...countriesList]
+    const dataCopy = [...displayedCountries]
     const checkedCountryIndex = dataCopy.findIndex((country)=>country.name.common === name)
     dataCopy[checkedCountryIndex].compare = !dataCopy[checkedCountryIndex].compare
     if (dataCopy[checkedCountryIndex].compare){
@@ -259,24 +218,17 @@ function CountriesPage() {
 
   //Button function to clear the comparison checkmarks
   function handleClearComparisons (){
-    const clearedData = countriesData.map((country)=>{return{...country, compare:false}})
-    console.log(clearedData)
-    setCountriesData(clearedData)
+    setDisplayedCountries(countriesData)
     setComparedCountries([])
-  }
-  /* The below useEffect was needed to deal with another odd bug. Despite both countriesData and countriesList previously being set to
-  clearedData above, the second one appeared to not fire. It wasn't that it fired too slowly; I checked and saw that the data was
-  unchanged using test buttons well after I would've expected the operation to complete. The comparedCountries one worked fine.
-  As the above code is the only place where setCountriesData is used (other than on App load) this workaround appears to work.*/
-  useEffect(()=>{
-    setCountriesList(countriesData)
     filterAndSearch(searchTerm, filterConditions)
-  },[countriesData])
+  }
+
   
   function handleClearFilters (){
     setFilterActive(false)
-    setFilterConditions(()=> generateFilter(regionList,languagesList,drivingSideList,populationList,areaList))
+    setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
   }
+
   useEffect(()=>{
     if (!filterActive){
       filterAndSearch(searchTerm,filterConditions)
@@ -301,7 +253,7 @@ function CountriesPage() {
 
         <Countries 
           loading={loading}
-          countries={countriesList}
+          displayedCountries={displayedCountries}
           handleComparison={handleComparison}
           />
 
@@ -310,7 +262,8 @@ function CountriesPage() {
           raiseCompareWindow={raiseCompareWindow}
           setRaiseCompareWindow={setRaiseCompareWindow}
         />}
-
+      <button onClick={()=>console.log(displayedCountries)}>asjuyiuyuyiuyuyuyuiyius</button>
+      <button onClick={()=>console.log(countriesData)}>asjaaks</button>
     </>
   ) : <span>Loading...</span>
 }
