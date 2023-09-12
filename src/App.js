@@ -7,7 +7,6 @@ import SharedLayout from "./pages/SharedLayout";
 import Homepage from "./pages/Homepage";
 import CountriesPage from "./pages/CountriesPage";
 import ErrorPage from "./pages/ErrorPage"
-import AboutPage from "./pages/AboutPage";
 import Details from "./pages/Details"
 import testingData from "./utils/testingData";
 
@@ -77,7 +76,6 @@ function App() {
           <Routes>
             <Route path="/" element={<SharedLayout/>}>
               <Route index element={<Homepage/>}/>
-              <Route path="/about" element={<AboutPage/>}/>
               <Route path="/countries" element={<CountriesPage/>}/>
               <Route path="/countries/:countryCode" element={<Details/>}/>
               <Route path="*" element={<ErrorPage/>}/>

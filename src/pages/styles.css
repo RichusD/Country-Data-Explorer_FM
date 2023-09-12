@@ -727,6 +727,50 @@ text-align: center;
     cursor: pointer;
 }
 
+/* ERROR PAGE ################################################### */
+
+
+.error-container{
+    grid-row: 2 / span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-container h1{
+    font-size: 10rem;
+    line-height: 9rem;
+    background-image: linear-gradient(90deg, rgba(255,70,70,1) 24%, rgba(111,111,111,1) 79%);
+    background-clip: text;
+
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+.error-container h2{
+    font-size: 2rem;
+}
+.error-wording{
+    font-size: 1.2rem;
+}
+
+.error-tiny-wording{
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+}
+
+.error-random-link{
+    font-size: 1.2rem;
+    text-decoration: none;
+    margin: 0 0.5ch;
+}
+
+
+
+
+
 /* ##### DARK MODE CLASSES ##################################### */
 /* General */
 #dark{

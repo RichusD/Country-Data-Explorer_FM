@@ -22,7 +22,6 @@ const Navbar = () => {
             <h2 className="nav-title">Where in the world?</h2>
             <nav>
                 <NavLink className="nav-link" to="/">Home</NavLink>
-                <NavLink className="nav-link" to="/about">About</NavLink>
                 <NavLink className="nav-link" to="/countries">Countries</NavLink>
                 <NavLink className="nav-link" to={`/countries/${countriesData[randomNum]["cca3"]}`}>Random Country</NavLink>
             </nav>
