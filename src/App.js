@@ -19,7 +19,13 @@ import {
   FiltersContext
 } from "./utils/Contexts";
 
+import {
+  drivingSideList,
+  populationList,
+  areaList
+} from "./utils/filterArrays"
 
+import { generateFilter } from "./utils/sharedFunctions";
 
 function App() {
   const [countriesData, setCountriesData] = useState([])
@@ -55,8 +61,9 @@ function App() {
   useEffect(() => {
     const copiedList = countriesData.map((countrydata)=>{return {...countrydata}})
     setDisplayedCountries(copiedList)
-
-}, [])
+    setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
+    
+}, [countriesData])
 
 
   return !loading ? (    

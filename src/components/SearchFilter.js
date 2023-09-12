@@ -11,7 +11,7 @@ function SearchFilter({
   setShowDropdown, 
   handleFilterClick, 
   filterConditions, 
-  searchText, 
+  searchTerm, 
   handleSearch,
   handleClearComparisons,
   filterActive,
@@ -26,7 +26,7 @@ function SearchFilter({
             <img className="mag-icon" src={mg} alt="magnifying glass"/>
             <input 
               placeholder="Search for a country"
-              value={searchText}
+              value={searchTerm}
               onChange={(e)=> handleSearch(e)}
               />
         </div>

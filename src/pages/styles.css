@@ -348,7 +348,7 @@ article{
 .country-details-wrapper{
     margin-top: 15px;
     display: grid;
-    grid-template-columns: auto auto 20px auto auto;
+    grid-template-columns: auto 1fr 20px auto 1fr;
     gap: 3px
 }
 

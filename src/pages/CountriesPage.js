@@ -11,6 +11,8 @@ import {
   FiltersContext
 } from "../utils/Contexts"
 
+import { generateFilter } from "../utils/sharedFunctions"
+
 import {
   drivingSideList,
   populationList,
@@ -31,54 +33,9 @@ function CountriesPage() {
   const {filterConditions, setFilterConditions} = useContext(FiltersContext)
   
 
-  //Generate a list of regions from the data to use in filters.
-  //Once we have a list of regions, we can create a filter with it
-  useEffect(() => {
-    setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
-    setLoading(false)
-  }, [])
-  
-  
-  //GENERATE FILTER OBJECT
-  //This object can be expanded to allow other types of filtration
-  function generateFilter(countriesData,drivingSideList,populationList,areaList){
-    let workingList ={region:[],subregion:[],languages:[],drivingSide:[],totalPopulation:[],totalArea:[]}
-    let regionList = []
-    let subregionList = []
-    let languagesList = []
-    
-    countriesData.forEach((country)=>{
-      regionList.push(country.region)
-      subregionList.push(country.subregion)
-      languagesList.push(Object.keys(country.languages).map((lang)=>`${country.languages[lang]}`))
-    })
-    
-    regionList = [...new Set(regionList.sort())]
-    subregionList = [...new Set(subregionList.sort())]
-    languagesList = [...new Set(languagesList.flat().sort())]
 
-    
-    regionList.map((region)=>{
-      workingList.region.push({name:region, checked:false})
-    })
-    subregionList.map((subregion)=>{
-      if (subregion !== ""){
-      workingList.subregion.push({name:subregion, checked:false})}
-    })
-    languagesList.map((lang)=>{
-      workingList.languages.push({name:lang, checked:false})
-    })
-    drivingSideList.map((side)=>{
-      workingList.drivingSide.push({name:side, checked:false})
-    })
-    populationList.map((pop)=>{
-      workingList.totalPopulation.push({...pop})
-    })
-    areaList.map((area)=>{
-      workingList.totalArea.push({...area})
-    })
-    return workingList
-  }
+
+  
 
   //This handles the actual filter and search together
   function filterAndSearch(currentSearchTerm, filterConditions){
@@ -175,10 +132,10 @@ function CountriesPage() {
     setFilterConditions({
       region:regions,
       subregion:subr,
-      languages:langs,
-      drivingSide:driveSide,
       totalPopulation:popul,
-      totalArea:area
+      totalArea:area,
+      drivingSide:driveSide,
+      languages:langs
     })
     
     //Runs the filter & search function
@@ -223,9 +180,9 @@ function CountriesPage() {
     filterAndSearch(searchTerm, filterConditions)
   }
 
-  
   function handleClearFilters (){
     setFilterActive(false)
+    setSearchTerm("")
     setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
   }
 
@@ -236,7 +193,7 @@ function CountriesPage() {
   },[filterConditions])
   
 
-  return !loading ? (
+  return (
     <>
         <SearchFilter 
           showCompareWindow={showCompareWindow}
@@ -263,7 +220,7 @@ function CountriesPage() {
           setRaiseCompareWindow={setRaiseCompareWindow}
         />}
     </>
-  ) : <span>Loading...</span>
+  )
 }
 
 export default CountriesPage;
