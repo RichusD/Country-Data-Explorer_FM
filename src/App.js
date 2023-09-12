@@ -31,7 +31,7 @@ function App() {
 
   useEffect(() => {
     const getData = async () =>{
-/*           const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area")
+/*           const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area,unMember,landlocked,coatOfArms")
           //Add additional property to enable comparison feature later on
           const dataWithComp = response.data.map((c)=>{
             return {...c, compare: false}})
@@ -60,7 +60,7 @@ function App() {
 
 
   return !loading ? (    
-    <div className="master-container">
+    <div id={`${darkMode ? "dark" : "light"}`} className="master-container">
       <CountriesContext.Provider value={{countriesData, setCountriesData}}>
       <ComparedCountriesContext.Provider value={{comparedCountries, setComparedCountries}}>
       <DarkLightModeContext.Provider value={{darkMode, setDarkMode}}>

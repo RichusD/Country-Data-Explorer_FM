@@ -1,7 +1,9 @@
 import { useContext } from "react"
+
 import "../pages/styles.css"
 import { ComparedCountriesContext, CountriesContext } from "../utils/Contexts"
 import { capitalise } from "../utils/sharedFunctions"
+import blankCoatOfArms from "../images/BlankCoatOfArms.png"
 
 function CompareWindow ({raiseCompareWindow, setRaiseCompareWindow}) {
     const {countriesData} = useContext(CountriesContext)
@@ -32,7 +34,23 @@ button to work. No idea why but a button that just used (false) would not work u
                         {comparedCountries.map((country)=>{
                             return (
                                 <td key={Math.random()} data-cell={country.name.common}>
-                                    <img preserveAspectRatio="none" className="comparison-flag" src={country.flags.png} alt={country.flags.alt}/>
+                                    <img className="comparison-flag" src={country.flags.png} alt={country.flags.alt}/>
+                                    </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        <td className="comparison-table-first-column">Coat of Arms</td>
+                        {comparedCountries.map((country)=>{
+                            return (
+                                <td className="coat-of-arms-cell" key={Math.random()} data-cell={country.name.common}>
+                                    {country.coatOfArms.png ? 
+                                    <img className="comparison-coat-of-arms" src={country.coatOfArms.png} alt={`Coat of arms for ${country.name.common}`}/> :
+                                    <div className="comparison-coat-of-arms-no-arms">
+                                        <img className="comparison-coat-of-arms" src={blankCoatOfArms} alt={"This country does not have an official coat of arms."}/>
+                                        <p>This country does not have an official coat of arms.</p>
+                                    </div>}
+
                                     </td>
                             )
                         })}
@@ -74,6 +92,26 @@ button to work. No idea why but a button that just used (false) would not work u
                         {comparedCountries.map((country)=>{
                             return (
                                 <td key={Math.random()} data-cell={country.name.common}>{country.capital.map((cap)=>`${cap}`).join(", ")}</td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        <td className="comparison-table-first-column">Landlocked</td>
+                        {comparedCountries.map((country)=>{
+                            return (
+                                <td key={Math.random()} data-cell={country.name.common}>
+                                    {country.landlocked ? "Yes": "No"}
+                                    </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        <td className="comparison-table-first-column">UN Member</td>
+                        {comparedCountries.map((country)=>{
+                            return (
+                                <td key={Math.random()} data-cell={country.name.common}>
+                                   {country.unMember ? "Yes" : "No"}
+                                    </td>
                             )
                         })}
                     </tr>

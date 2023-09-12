@@ -1,8 +1,9 @@
+import React from "react"
 import {BsChevronDown} from "react-icons/bs"
 
 import mg from "../images/mag-glass.png"
 import FilterSidebar from "./FilterSidebar"
-import React from "react"
+
 
 function SearchFilter({
   showCompareWindow,
@@ -15,12 +16,14 @@ function SearchFilter({
   handleClearComparisons,
   filterActive,
   handleClearFilters
-}) {
+}) 
+
+{
 
   return (
-    <div id="sf-container">
-        <div id="searchbox">
-            <img id="mag-icon" src={mg} alt="magnifying glass"/>
+    <div className="sf-container">
+        <div className="searchbox">
+            <img className="mag-icon" src={mg} alt="magnifying glass"/>
             <input 
               placeholder="Search for a country"
               value={searchText}
@@ -30,7 +33,7 @@ function SearchFilter({
       <div className="filter-buttons-wrapper">
         {filterActive && <button onClick={() => handleClearFilters()} className="clear-comparison-button">Clear Active Filters</button>}
         {showCompareWindow && <button onClick={() => handleClearComparisons()} className="clear-comparison-button">Clear Comparisons</button>}
-        <button onClick={() => setShowDropdown(!showDropdown)} id="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
+        <button onClick={() => setShowDropdown(!showDropdown)} className="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
       </div>
       <FilterSidebar setShowDropdown={setShowDropdown} showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
     </div>

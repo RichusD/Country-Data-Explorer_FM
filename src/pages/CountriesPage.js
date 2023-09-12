@@ -262,8 +262,6 @@ function CountriesPage() {
           raiseCompareWindow={raiseCompareWindow}
           setRaiseCompareWindow={setRaiseCompareWindow}
         />}
-      <button onClick={()=>console.log(displayedCountries)}>asjuyiuyuyiuyuyuyuiyius</button>
-      <button onClick={()=>console.log(countriesData)}>asjaaks</button>
     </>
   ) : <span>Loading...</span>
 }

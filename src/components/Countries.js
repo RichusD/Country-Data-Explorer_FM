@@ -1,7 +1,12 @@
+import { useContext } from "react"
+
 import CountryCard from "./CountryCard"
+import { DarkLightModeContext } from "../utils/Contexts"
 
 function Countries({displayedCountries, loading, handleComparison}) {
-    let countrycards = ""
+    const {darkMode} = useContext(DarkLightModeContext)
+    let countrycards
+
     if (displayedCountries.length === 0 && !loading){
         countrycards = 
             <div>
@@ -27,7 +32,7 @@ function Countries({displayedCountries, loading, handleComparison}) {
     }
 
     return (
-        <section id="countries-grid">
+        <section className={`countries-grid ${darkMode ? "dark-mode" : ""}`}>
             {countrycards}
         </section>
     );

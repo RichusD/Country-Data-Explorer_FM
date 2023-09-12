@@ -18,8 +18,8 @@ const Navbar = () => {
 
 
     return (
-        <div className={`nav-container ${darkMode ? "dark-mode":""}`}>
-            <h2 id="nav-title">Where in the world?</h2>
+        <div className="nav-container" >
+            <h2 className="nav-title">Where in the world?</h2>
             <nav>
                 <NavLink className="nav-link" to="/">Home</NavLink>
                 <NavLink className="nav-link" to="/about">About</NavLink>
@@ -27,8 +27,8 @@ const Navbar = () => {
                 <NavLink className="nav-link" to={`/countries/${countriesData[randomNum]["cca3"]}`}>Random Country</NavLink>
             </nav>
 
-            <button id="darkmode-button" onClick={()=>setDarkMode(!darkMode)}>
-                <img id="moon-icon" src={moon} />
+            <button className="dark-mode-button" onClick={()=>setDarkMode(!darkMode)}>
+                <img className="moon-icon" src={moon} />
                 <p>Dark Mode</p>
             </button>
         </div>
