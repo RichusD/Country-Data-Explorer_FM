@@ -20,9 +20,8 @@ import {
 } from "../utils/filterArrays"
 
 function CountriesPage() {
-  const [showDropdown, setShowDropdown] = useState(false)
+  const [showFilter, setShowFilter] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
-  const [loading, setLoading] = useState(true)
   const [showCompareWindow, setShowCompareWindow] = useState(false)
   const [raiseCompareWindow, setRaiseCompareWindow] = useState(false)
   const [filterActive, setFilterActive] = useState(false)
@@ -32,11 +31,6 @@ function CountriesPage() {
   const {displayedCountries, setDisplayedCountries} = useContext(DisplayedCountriesContext)
   const {filterConditions, setFilterConditions} = useContext(FiltersContext)
   
-
-
-
-  
-
   //This handles the actual filter and search together
   function filterAndSearch(currentSearchTerm, filterConditions){
     //Create array to hold what will be the filtered list
@@ -140,8 +134,6 @@ function CountriesPage() {
     
     //Runs the filter & search function
     filterAndSearch(searchTerm,filterConditions)
-    //Close Dropdown
-    setShowDropdown(false)
   }
   //This handles search terms
   function handleSearch(e){
@@ -200,8 +192,8 @@ function CountriesPage() {
           searchTerm={searchTerm}
           handleSearch={handleSearch}
           filterConditions={filterConditions}
-          showDropdown={showDropdown}
-          setShowDropdown={setShowDropdown}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
           handleFilterClick={handleFilterClick}
           handleClearComparisons={handleClearComparisons}
           filterActive={filterActive}
@@ -209,7 +201,6 @@ function CountriesPage() {
         />
 
         <Countries 
-          loading={loading}
           displayedCountries={displayedCountries}
           handleComparison={handleComparison}
           />

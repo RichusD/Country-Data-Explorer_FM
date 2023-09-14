@@ -7,8 +7,8 @@ import FilterSidebar from "./FilterSidebar"
 
 function SearchFilter({
   showCompareWindow,
-  showDropdown, 
-  setShowDropdown, 
+  showFilter, 
+  setShowFilter, 
   handleFilterClick, 
   filterConditions, 
   searchTerm, 
@@ -33,9 +33,9 @@ function SearchFilter({
       <div className="filter-buttons-wrapper">
         {filterActive && <button onClick={() => handleClearFilters()} className="clear-comparison-button">Clear Active Filters</button>}
         {showCompareWindow && <button onClick={() => handleClearComparisons()} className="clear-comparison-button">Clear Comparisons</button>}
-        <button onClick={() => setShowDropdown(!showDropdown)} className="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
+        <button onClick={() => setShowFilter(!showFilter)} className="filter-button">Filter by Region <BsChevronDown className="filter-button-chevron"/></button>
       </div>
-      <FilterSidebar setShowDropdown={setShowDropdown} showDropdown={showDropdown} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>
+      {showFilter && <FilterSidebar setShowFilter={setShowFilter} showFilter={showFilter} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>}
     </div>
   );
 }

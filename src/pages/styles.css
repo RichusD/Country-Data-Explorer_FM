@@ -10,6 +10,7 @@
     --dark-mode-bg2: #2b3743;
     --dark-mode-text: #fffffd;
     --dark-mode-link: #8ab4ea;
+    --dark-mode-visited-link: #bb8af9;
     --dark-mode-button-hover: #4b4b4b;
     --highlight-red: #ff4646;
 
@@ -25,6 +26,7 @@
 .hide{
     display: none;
     opacity: 0;
+    transition: 100ms;
 }
 
 html{
@@ -53,6 +55,10 @@ body{
     "search"
     "mainContent"
     "footer";
+}
+
+.master-container a{
+    text-decoration: none;
 }
 
 /* ##### NAVBAR ##################################### */
@@ -275,6 +281,7 @@ input::placeholder{
     height: 100vh;
     width: 100%;
     background-color: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
 }
 /* ##### COUNTRIES GRID & COUNTRY CARD ######################################### */
 
@@ -303,6 +310,7 @@ input::placeholder{
     border: 1px solid var(--body-colour)
 
 }
+
 .card-text{
     padding: 2rem;
 
@@ -477,9 +485,10 @@ sup{
 .border-list{
     margin-top: 10px;
     width:100%;
+    max-width: 500px;
     margin-left: 5px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 1rem;
 }
 
@@ -743,15 +752,17 @@ text-align: center;
     line-height: 9rem;
     background-image: linear-gradient(90deg, rgba(255,70,70,1) 24%, rgba(111,111,111,1) 79%);
     background-clip: text;
-
+    background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
     -webkit-text-fill-color: transparent; 
     -moz-text-fill-color: transparent;
 }
+
 .error-container h2{
     font-size: 2rem;
 }
+
 .error-wording{
     font-size: 1.2rem;
 }
@@ -767,10 +778,6 @@ text-align: center;
     margin: 0 0.5ch;
 }
 
-
-
-
-
 /* ##### DARK MODE CLASSES ##################################### */
 /* General */
 #dark{
@@ -781,6 +788,10 @@ text-align: center;
 /*React Router links transpile to an a, so this affects all router links within the card class*/
 #dark a{
     color: var(--dark-mode-link);
+    text-decoration: none;
+}
+#dark a:visited{
+    color: var(--dark-mode-visited-link);
     text-decoration: none;
 }
 

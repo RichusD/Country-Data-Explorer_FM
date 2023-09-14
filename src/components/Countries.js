@@ -3,11 +3,11 @@ import { useContext } from "react"
 import CountryCard from "./CountryCard"
 import { DarkLightModeContext } from "../utils/Contexts"
 
-function Countries({displayedCountries, loading, handleComparison}) {
+function Countries({displayedCountries, handleComparison}) {
     const {darkMode} = useContext(DarkLightModeContext)
     let countrycards
 
-    if (displayedCountries.length === 0 && !loading){
+    if (displayedCountries.length === 0){
         countrycards = 
             <div>
                 <p>Unable to find anything that meets your filters or search criteria</p>

@@ -1,6 +1,28 @@
+import { useEffect, useRef } from "react"
+
 export const capitalise = (string)=>{
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+export const useClickOutside = (actionOnClickOutside)=>{
+  const domNode = useRef()
+
+  useEffect(()=>{
+      const clickOutsideBehaviour = (event) =>{
+          if (!domNode.current.contains(event.target)){
+              actionOnClickOutside()
+          }
+      }
+      document.addEventListener("mousedown", clickOutsideBehaviour)
+      
+      return () => {
+          document.removeEventListener("mousedown", clickOutsideBehaviour)
+      }
+  })
+  return domNode
+}
+
+
 
   //GENERATE FILTER OBJECT
   //This object can be expanded to allow other types of filtration

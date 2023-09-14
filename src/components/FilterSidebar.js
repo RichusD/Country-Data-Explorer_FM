@@ -1,10 +1,14 @@
 import {TiTick} from "react-icons/ti"
-import { capitalise } from "../utils/sharedFunctions"
+import { capitalise, useClickOutside } from "../utils/sharedFunctions"
 
-function FilterSidebar ({showDropdown, setShowDropdown, handleFilterClick,filterConditions}) {
+function FilterSidebar ({showFilter, setShowFilter, handleFilterClick,filterConditions}) {
+    
+    const outsideRef = useClickOutside(() => setShowFilter(false))
+
+
     return ( 
-        <div className={!showDropdown ? "hide":"darkness"} onClick={()=> setShowDropdown(!showDropdown)}>
-            <div className={!showDropdown ? "hide":"filter-sidebar-container"}>
+        <div className={!showFilter ? "hide":"darkness"}>
+            <div ref={outsideRef} className={!showFilter ? "hide":"filter-sidebar-container"}>
                     {Object.keys(filterConditions).map((category)=>{
                         return (
                             <div>
