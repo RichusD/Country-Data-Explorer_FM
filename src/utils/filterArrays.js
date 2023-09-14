@@ -1,7 +1,30 @@
 export const drivingSideList = ["left", "right"]
 
+export const UNMemberList = [
+  {
+    name: "UN Member",
+    value: true,
+    checked: false
+  },
+  {
+    name: "Non-UN Member",
+    value: false,
+    checked: false
+  }
+]
 
-export const LandlockedList = ["Landlocked", "Not Landlocked"]
+export const landlockedList = [
+  {
+    name: "Landlocked",
+    value: true,
+    checked: false
+  },
+  {
+    name: "Not Landlocked",
+    value: false,
+    checked: false
+  }
+]
 
 export const populationList = [
     {

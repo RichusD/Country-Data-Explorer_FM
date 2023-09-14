@@ -21,7 +21,9 @@ import {
 import {
   drivingSideList,
   populationList,
-  areaList
+  areaList,
+  UNMemberList,
+  landlockedList,
 } from "./utils/filterArrays"
 
 import { generateFilter } from "./utils/sharedFunctions";
@@ -60,7 +62,16 @@ function App() {
   useEffect(() => {
     const copiedList = countriesData.map((countrydata)=>{return {...countrydata}})
     setDisplayedCountries(copiedList)
-    setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
+    setFilterConditions(
+      generateFilter(
+        countriesData,
+        drivingSideList,
+        UNMemberList,
+        landlockedList,
+        populationList,
+        areaList
+      )
+    )
     
 }, [countriesData])
 

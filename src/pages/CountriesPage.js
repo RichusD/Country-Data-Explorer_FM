@@ -16,7 +16,9 @@ import { generateFilter } from "../utils/sharedFunctions"
 import {
   drivingSideList,
   populationList,
-  areaList
+  areaList,
+  UNMemberList,
+  landlockedList
 } from "../utils/filterArrays"
 
 function CountriesPage() {
@@ -65,6 +67,16 @@ function CountriesPage() {
           newList = [...newList.filter((country)=>(country.car.side === e.name))]
         }
       })
+      filterConditions.UNMember.map((e)=>{
+        if (e.checked){
+          newList = [...newList.filter((country)=>(country.unMember === e.value))]
+        }
+      })
+      filterConditions.landlocked.map((e)=>{
+        if (e.checked){
+          newList = [...newList.filter((country)=>(country.landlocked === e.value))]
+        }
+      })
       filterConditions.totalPopulation.map((e)=>{
         if (e.checked){
           newList = [...newList.filter((country)=>(country.population >= e.min && country.population <= e.max))]
@@ -94,6 +106,8 @@ function CountriesPage() {
     let subr = [...filterConditions.subregion]
     let langs = [...filterConditions.languages]
     let driveSide = [...filterConditions.drivingSide]
+    let UNMList = [...filterConditions.UNMember]
+    let LLList = [...filterConditions.landlocked]
     let popul = [...filterConditions.totalPopulation]
     let area = [...filterConditions.totalArea]
       /* You use currentTarget here as the options under the filter are contained within a div, which contains the option as an li and
@@ -115,6 +129,14 @@ function CountriesPage() {
       let changeIndex = driveSide.findIndex((e)=> e.name === clickName)
       driveSide[changeIndex].checked = !driveSide[changeIndex].checked
 
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "UNMember"){
+      let changeIndex = UNMList.findIndex((e)=> e.name === clickName)
+      UNMList[changeIndex].checked = !UNMList[changeIndex].checked
+
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "landlocked"){
+      let changeIndex = LLList.findIndex((e)=> e.name === clickName)
+      LLList[changeIndex].checked = !LLList[changeIndex].checked
+
     } else if (event.currentTarget.getAttribute("data-filtercategory") === "totalPopulation"){
       let changeIndex = popul.findIndex((e)=> e.name === clickName)
       popul[changeIndex].checked = !popul[changeIndex].checked
@@ -129,6 +151,8 @@ function CountriesPage() {
       totalPopulation:popul,
       totalArea:area,
       drivingSide:driveSide,
+      UNMember:UNMList,
+      landlocked:LLList,
       languages:langs
     })
     
@@ -175,7 +199,16 @@ function CountriesPage() {
   function handleClearFilters (){
     setFilterActive(false)
     setSearchTerm("")
-    setFilterConditions(generateFilter(countriesData,drivingSideList,populationList,areaList))
+    setFilterConditions(
+      generateFilter(
+        countriesData,
+        drivingSideList,
+        UNMemberList,
+        landlockedList,
+        populationList,
+        areaList,
+      )
+    )
   }
 
   useEffect(()=>{

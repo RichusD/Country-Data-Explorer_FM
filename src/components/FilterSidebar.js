@@ -11,21 +11,21 @@ function FilterSidebar ({showFilter, setShowFilter, handleFilterClick,filterCond
             <div ref={outsideRef} className={!showFilter ? "hide":"filter-sidebar-container"}>
                     {Object.keys(filterConditions).map((category)=>{
                         return (
-                            <div>
+                            <div key={Math.random()}>
                                 <h2 className="filter-category">{category.toUpperCase()}</h2>
                                 <div className="filter-options-container">
                                     {filterConditions[category].map((r)=>{
                                         if (r.checked) {
                                             return (
                                                 <div key={Math.random()} data-filtercategory={category} onClick={(event)=> handleFilterClick(event, r.name)} className="filter-sidebar-item-selected">
-                                                    <li key={Math.random()}>{capitalise(r.name)}</li>
-                                                    <TiTick key={Math.random()}/>
+                                                    <li>{capitalise(r.name)}</li>
+                                                    <TiTick/>
                                                 </div>
                                             )
                                         } else{
                                             return (
                                                 <div key={Math.random()} data-filtercategory={category} onClick={(event)=> handleFilterClick(event, r.name)} className="filter-sidebar-item">
-                                                    <li key={Math.random()}>{capitalise(r.name)}</li>
+                                                    <li>{capitalise(r.name)}</li>
                                                 </div>
                                             )
                                         }            

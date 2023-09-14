@@ -24,8 +24,19 @@ export const useClickOutside = (actionOnClickOutside)=>{
 
   //GENERATE FILTER OBJECT
   //This object can be expanded to allow other types of filtration
-export function generateFilter(countriesData,drivingSideList,populationList,areaList){
-    let filterObject ={region:[],subregion:[],totalPopulation:[],totalArea:[],drivingSide:[],languages:[]}
+export function generateFilter(countriesData,drivingSideList, UNMemberList, landlockedList, populationList,areaList){
+    let filterObject = 
+    {
+      region:[],
+      subregion:[],
+      totalPopulation:[],
+      totalArea:[],
+      drivingSide:[],
+      UNMember:[],
+      landlocked:[],
+      languages:[]
+    }
+
     let regionList = []
     let subregionList = []
     let languagesList = []
@@ -55,6 +66,12 @@ export function generateFilter(countriesData,drivingSideList,populationList,area
     })
     drivingSideList.map((side)=>{
         filterObject.drivingSide.push({name:side, checked:false})
+    })
+    UNMemberList.map((UNMember)=>{
+        filterObject.UNMember.push({...UNMember})
+    })
+    landlockedList.map((landlocked)=>{
+        filterObject.landlocked.push({...landlocked})
     })
     languagesList.map((lang)=>{
       filterObject.languages.push({name:lang, checked:false})
