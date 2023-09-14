@@ -22,8 +22,6 @@ export const useClickOutside = (actionOnClickOutside)=>{
   return domNode
 }
 
-
-
   //GENERATE FILTER OBJECT
   //This object can be expanded to allow other types of filtration
 export function generateFilter(countriesData,drivingSideList,populationList,areaList){

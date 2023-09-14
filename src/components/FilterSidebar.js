@@ -17,14 +17,14 @@ function FilterSidebar ({showFilter, setShowFilter, handleFilterClick,filterCond
                                     {filterConditions[category].map((r)=>{
                                         if (r.checked) {
                                             return (
-                                                <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item-selected ${category}`}>
+                                                <div key={Math.random()} data-filtercategory={category} onClick={(event)=> handleFilterClick(event, r.name)} className="filter-sidebar-item-selected">
                                                     <li key={Math.random()}>{capitalise(r.name)}</li>
                                                     <TiTick key={Math.random()}/>
                                                 </div>
                                             )
                                         } else{
                                             return (
-                                                <div key={Math.random()} onClick={(event)=> handleFilterClick(event, r.name)} className={`filter-sidebar-item ${category}`}>
+                                                <div key={Math.random()} data-filtercategory={category} onClick={(event)=> handleFilterClick(event, r.name)} className="filter-sidebar-item">
                                                     <li key={Math.random()}>{capitalise(r.name)}</li>
                                                 </div>
                                             )

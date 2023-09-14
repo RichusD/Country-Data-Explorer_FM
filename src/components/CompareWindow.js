@@ -9,7 +9,11 @@ function CompareWindow ({raiseCompareWindow, setRaiseCompareWindow}) {
     const {countriesData} = useContext(CountriesContext)
     const {comparedCountries} = useContext(ComparedCountriesContext)
 
-    const compWindowRef = useClickOutside(() => setRaiseCompareWindow(!raiseCompareWindow))
+    const compWindowRef = useClickOutside(() => {
+        if (raiseCompareWindow){
+            setRaiseCompareWindow(!raiseCompareWindow)
+        }
+        })
 
 
 
@@ -21,9 +25,10 @@ button to work. No idea why but a button that just used (false) would not work u
         <div className={raiseCompareWindow ? "darkness":"hide"}></div>
 
         <div className={raiseCompareWindow ? "hide" : `comparison-window-inactive`} onClick={()=>setRaiseCompareWindow(!raiseCompareWindow)}>
-            <h2 className="comparison-heading">Compare Countries</h2>
+            <h2 className="comparison-heading">{`Compare ${comparedCountries.length} Countries`}</h2>
         </div>
-        
+
+
         <div ref={compWindowRef} className={raiseCompareWindow ? `comparison-window-active` : "hide"}>
             <h2 className="comparison-heading">Compare Countries</h2>
             <table className={`comparison-table ${raiseCompareWindow ? "":"hide"}`} >
@@ -183,7 +188,6 @@ button to work. No idea why but a button that just used (false) would not work u
             <button onClick={()=>setRaiseCompareWindow(!raiseCompareWindow)} className={raiseCompareWindow ? "comparison-table-close-button":"hide"} >Close Comparison</button>
         </div>
         </>
-
     )
 }
 

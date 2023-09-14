@@ -99,27 +99,27 @@ function CountriesPage() {
       /* You use currentTarget here as the options under the filter are contained within a div, which contains the option as an li and
       a tick svg icon. currentTarget will refer to the target which has the event listener attached (i.e. the one with the onClick). target
       will refer to the element that was clicked, which could be the li or icon itself, which would cause bugs. */
-    if (event.currentTarget.className.includes(" region")){
+    if (event.currentTarget.getAttribute("data-filtercategory") === "region"){
       let changeIndex = regions.findIndex((e)=> e.name === clickName)
       regions[changeIndex].checked = !regions[changeIndex].checked
 
-    } else if (event.currentTarget.className.includes(" subregion")){
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "subregion"){
       let changeIndex = subr.findIndex((e)=> e.name === clickName)
       subr[changeIndex].checked = !subr[changeIndex].checked
 
-    } else if (event.currentTarget.className.includes(" languages")){
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "languages"){
       let changeIndex = langs.findIndex((e)=> e.name === clickName)
       langs[changeIndex].checked = !langs[changeIndex].checked
 
-    } else if (event.currentTarget.className.includes(" drivingSide")){
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "drivingSide"){
       let changeIndex = driveSide.findIndex((e)=> e.name === clickName)
       driveSide[changeIndex].checked = !driveSide[changeIndex].checked
 
-    } else if (event.currentTarget.className.includes(" totalPopulation")){
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "totalPopulation"){
       let changeIndex = popul.findIndex((e)=> e.name === clickName)
       popul[changeIndex].checked = !popul[changeIndex].checked
 
-    } else if (event.currentTarget.className.includes(" totalArea")){
+    } else if (event.currentTarget.getAttribute("data-filtercategory") === "totalArea"){
       let changeIndex = area.findIndex((e)=> e.name === clickName)
       area[changeIndex].checked = !area[changeIndex].checked
     }

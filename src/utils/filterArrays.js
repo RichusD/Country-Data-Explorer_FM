@@ -1,5 +1,8 @@
 export const drivingSideList = ["left", "right"]
 
+
+export const LandlockedList = ["Landlocked", "Not Landlocked"]
+
 export const populationList = [
     {
       name:"0 - 10,000",
