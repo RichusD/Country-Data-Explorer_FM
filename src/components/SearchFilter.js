@@ -1,9 +1,11 @@
-import {React, useState} from "react"
+import {React, useState, useContext} from "react"
 import {BsChevronDown} from "react-icons/bs"
 
 import mg from "../images/mag-glass.png"
 import FilterSidebar from "./FilterSidebar"
 import SortDropdown from "./SortDropdown"
+
+import { DisplayedCountriesContext } from "../utils/Contexts"
 
 
 function SearchFilter({
@@ -20,6 +22,7 @@ function SearchFilter({
 {
   const [showFilter, setShowFilter] = useState(false)
   const [showSort, setShowSort] = useState(false)
+  const {displayedCountries} = useContext(DisplayedCountriesContext)
 
   return (
     <div className="sf-container">
@@ -31,6 +34,7 @@ function SearchFilter({
               onChange={(e)=> handleSearch(e)}
               />
         </div>
+        <p className="country-counter">{displayedCountries.length} {displayedCountries.length === 1 ? "country shown":"countries shown"}</p>
       <div className="filter-buttons-wrapper">
         {filterActive && <button onClick={() => handleClearFilters()} className="clear-comparison-button">Clear Active Filters</button>}
         {showCompareWindow && <button onClick={() => handleClearComparisons()} className="clear-comparison-button">Clear Comparisons</button>}

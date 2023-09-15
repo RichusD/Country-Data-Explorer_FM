@@ -176,6 +176,12 @@ input:focus{
 input::placeholder{
     color: var(--text-color)
 }
+
+.country-counter{
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
 .filter-buttons-wrapper{
     display: flex;
     gap: 15px;
