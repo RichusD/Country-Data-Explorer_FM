@@ -14,3 +14,6 @@ export const FiltersContext = createContext({})
 
 //We also need the displayed countries to persist between routes
 export const DisplayedCountriesContext = createContext({})
+
+//We need the sort setting to persist between routes
+export const SortContext = createContext({})

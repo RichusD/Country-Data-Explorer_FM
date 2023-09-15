@@ -15,7 +15,8 @@ import {
   DarkLightModeContext,
   ComparedCountriesContext,
   DisplayedCountriesContext,
-  FiltersContext
+  FiltersContext,
+  SortContext
 } from "./utils/Contexts";
 
 import {
@@ -26,6 +27,8 @@ import {
   landlockedList,
 } from "./utils/filterArrays"
 
+import sortOptionsList from "./utils/SortOptions"
+
 import { generateFilter } from "./utils/sharedFunctions";
 
 function App() {
@@ -33,6 +36,7 @@ function App() {
   const [comparedCountries, setComparedCountries] = useState([])
   const [displayedCountries, setDisplayedCountries] = useState([])
   const [filterConditions, setFilterConditions] = useState({})
+  const [sortOptions, setSortOptions] = useState([...sortOptionsList])
   const [darkMode, setDarkMode] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -83,6 +87,7 @@ function App() {
       <DarkLightModeContext.Provider value={{darkMode, setDarkMode}}>
       <DisplayedCountriesContext.Provider value={{displayedCountries, setDisplayedCountries}}>
       <FiltersContext.Provider value={{filterConditions, setFilterConditions}}>
+      <SortContext.Provider value={{sortOptions, setSortOptions}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SharedLayout/>}>
@@ -93,6 +98,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+      </SortContext.Provider>
       </FiltersContext.Provider>
       </DisplayedCountriesContext.Provider>
       </DarkLightModeContext.Provider>

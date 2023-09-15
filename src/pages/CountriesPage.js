@@ -8,7 +8,8 @@ import {
   ComparedCountriesContext,
   CountriesContext,
   DisplayedCountriesContext,
-  FiltersContext
+  FiltersContext,
+  SortContext
 } from "../utils/Contexts"
 
 import { generateFilter } from "../utils/sharedFunctions"
@@ -21,8 +22,9 @@ import {
   landlockedList
 } from "../utils/filterArrays"
 
+import sortOptionsList from "../utils/SortOptions"
+
 function CountriesPage() {
-  const [showFilter, setShowFilter] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [showCompareWindow, setShowCompareWindow] = useState(false)
   const [raiseCompareWindow, setRaiseCompareWindow] = useState(false)
@@ -32,6 +34,7 @@ function CountriesPage() {
   const {countriesData} = useContext(CountriesContext)
   const {displayedCountries, setDisplayedCountries} = useContext(DisplayedCountriesContext)
   const {filterConditions, setFilterConditions} = useContext(FiltersContext)
+  const {sortOptions, setSortOptions} = useContext(SortContext)
   
   //This handles the actual filter and search together
   function filterAndSearch(currentSearchTerm, filterConditions){
@@ -96,7 +99,100 @@ function CountriesPage() {
       })
     } 
     //Finally, set the countries list to this filtered list of countries, so we can see it on screen
-    setDisplayedCountries(newList)
+    setDisplayedCountries(performSort(newList,sortOptions))
+  }
+
+  //SORT FUNCTION, takes a list to be sorted returns by setting displayed countries
+  function handleSortClick(event){
+    let updatedSortOptions = []
+    const clickedOption = event.currentTarget.getAttribute("data-sortoption")
+    
+    if (!clickedOption){
+      setSortOptions([...sortOptionsList])
+    } else {
+      updatedSortOptions = sortOptionsList.map((option)=>{
+        if (option.name === clickedOption){
+          return {name:option.name,checked: true}
+        } else {
+          return {name:option.name, checked:false}
+        }
+      })
+      setSortOptions([...updatedSortOptions])
+    }
+
+    return setDisplayedCountries(performSort(displayedCountries,updatedSortOptions))
+  }
+
+  function performSort (arrayToSort, sortOptions){
+    let newList = [...arrayToSort]
+
+    sortOptions.map((option)=>{
+      if (option.checked){
+        if (option.name === "Alphabetically (A-Z)"){
+          newList = newList.sort(function (a,b){
+            if (a.name.common.toLowerCase() < b.name.common.toLowerCase()){
+              return -1
+            } else if (a.name.common.toLowerCase() > b.name.common.toLowerCase()){
+              return 1
+            } else {
+              return 0
+            }
+          })
+        } else if (option.name === "Alphabetically (Z-A)"){
+          newList = newList.sort(function (a,b){
+            if (a.name.common.toLowerCase() < b.name.common.toLowerCase()){
+              return 1
+            } else if (a.name.common.toLowerCase() > b.name.common.toLowerCase()){
+              return -1
+            } else {
+              return 0
+            }
+          })
+        } else if (option.name === "Population (high to low)"){
+          newList = newList.sort(function (a,b){
+            if (a.population < b.population){
+              return 1
+            } else if (a.population > b.population){
+              return -1
+            } else {
+              return 0
+            }
+          })
+        } else if (option.name === "Population (low to high)"){
+          newList = newList.sort(function (a,b){
+            if (a.population < b.population){
+              return -1
+            } else if (a.population > b.population){
+              return 1
+            } else {
+              return 0
+            }
+          })
+        } else if (option.name === "Area (high to low)"){
+          newList = newList.sort(function (a,b){
+            if (a.area < b.area){
+              return 1
+            } else if (a.area > b.area){
+              return -1
+            } else {
+              return 0
+            }
+          })
+        } else if (option.name === "Area (low to high)"){
+          newList = newList.sort(function (a,b){
+            if (a.area < b.area){
+              return -1
+            } else if (a.area > b.area){
+              return 1
+            } else {
+              return 0
+            }
+          })
+        }
+      }
+    })
+
+    return newList
   }
 
   //This function handles the click on a filter
@@ -225,12 +321,11 @@ function CountriesPage() {
           searchTerm={searchTerm}
           handleSearch={handleSearch}
           filterConditions={filterConditions}
-          showFilter={showFilter}
-          setShowFilter={setShowFilter}
           handleFilterClick={handleFilterClick}
           handleClearComparisons={handleClearComparisons}
           filterActive={filterActive}
           handleClearFilters={handleClearFilters}
+          handleSortClick={handleSortClick}
         />
 
         <Countries 

@@ -44,7 +44,7 @@ function Details () {
                     <div className="country-details-wrapper">
 
                             <p className="details-text-title-l">Native Name: </p>
-                            <p className="details-text-l">{countryData.name.nativeName[Object.keys(countryData.name.nativeName)[0]].official}</p>
+                            {<p className="details-text-l">{Object.keys(countryData.name.nativeName)[0] ? countryData.name.nativeName[Object.keys(countryData.name.nativeName)[0]].official : "There is no official native name for this country."}</p>}
                             <p className="details-text-title-r">Driving Side: </p>
                             <p className="details-text-r">
                                 {capitalise(countryData.car.side)}
