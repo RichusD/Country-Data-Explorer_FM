@@ -23,6 +23,14 @@ const sortOptions = [
         name:"Area (low to high)",
         checked: false
     },
+    {
+        name:"Population Density (high to low)",
+        checked: false
+    },
+    {
+        name:"Population Density (low to high)",
+        checked: false
+    }
 ]
 
 export default sortOptions

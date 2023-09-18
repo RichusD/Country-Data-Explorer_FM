@@ -13,6 +13,7 @@
     --dark-mode-visited-link: #bb8af9;
     --dark-mode-button-hover: #4b4b4b;
     --highlight-red: #ff4646;
+    --highlight-red-hover: #b33232;
 
 }
 
@@ -82,6 +83,30 @@ nav {
     width: 400px;
 
 }
+.back-to-top-button{
+    position: fixed;
+    background-color: var(--highlight-red);
+    color: white;
+    font-weight: 700;
+    font-size: 4rem;
+    line-height: 5.5rem;
+    border: none;
+    box-shadow: var(--shadow-setting);
+    text-align: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    bottom: 10%;
+    left: 50%;
+    transform-origin: center;
+
+    transition: 200ms;
+}
+.back-to-top-button:hover{
+    background-color: var(--highlight-red-hover);
+    scale: 1.1;
+}
+
 
 .nav-link{
     text-decoration: none;

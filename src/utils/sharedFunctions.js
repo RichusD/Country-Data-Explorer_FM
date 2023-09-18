@@ -4,26 +4,13 @@ export const capitalise = (string)=>{
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export const useClickOutside = (actionOnClickOutside)=>{
-  const domNode = useRef()
-
-  useEffect(()=>{
-      const clickOutsideBehaviour = (event) =>{
-          if (!domNode.current.contains(event.target)){
-              actionOnClickOutside()
-          }
-      }
-      document.addEventListener("mousedown", clickOutsideBehaviour)
-      
-      return () => {
-          document.removeEventListener("mousedown", clickOutsideBehaviour)
-      }
-  })
-  return domNode
+export const populationDensityCalc = (population, area)=>{
+  return Math.round(population/area)
 }
 
-  //GENERATE FILTER OBJECT
-  //This object can be expanded to allow other types of filtration
+
+//GENERATE FILTER OBJECT
+//This object can be expanded to allow other types of filtration
 export function generateFilter(countriesData,drivingSideList, UNMemberList, landlockedList, populationList,areaList){
     let filterObject = 
     {
@@ -60,21 +47,39 @@ export function generateFilter(countriesData,drivingSideList, UNMemberList, land
     })
     populationList.map((pop)=>{
         filterObject.totalPopulation.push({...pop})
-    })
-    areaList.map((area)=>{
+      })
+      areaList.map((area)=>{
         filterObject.totalArea.push({...area})
     })
     drivingSideList.map((side)=>{
-        filterObject.drivingSide.push({name:side, checked:false})
+      filterObject.drivingSide.push({name:side, checked:false})
     })
     UNMemberList.map((UNMember)=>{
-        filterObject.UNMember.push({...UNMember})
+      filterObject.UNMember.push({...UNMember})
     })
     landlockedList.map((landlocked)=>{
-        filterObject.landlocked.push({...landlocked})
+      filterObject.landlocked.push({...landlocked})
     })
     languagesList.map((lang)=>{
       filterObject.languages.push({name:lang, checked:false})
     })
     return filterObject
   }
+  
+export const useClickOutside = (actionOnClickOutside)=>{
+  const domNode = useRef()
+
+  useEffect(()=>{
+      const clickOutsideBehaviour = (event) =>{
+          if (!domNode.current.contains(event.target)){
+              actionOnClickOutside()
+          }
+      }
+      document.addEventListener("mousedown", clickOutsideBehaviour)
+      
+      return () => {
+          document.removeEventListener("mousedown", clickOutsideBehaviour)
+      }
+  })
+  return domNode
+}

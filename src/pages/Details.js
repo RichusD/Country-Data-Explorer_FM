@@ -3,7 +3,7 @@ import { Link, useParams, useLocation } from "react-router-dom"
 import {BsArrowLeft} from "react-icons/bs"
 
 import { CountriesContext } from "../utils/Contexts"
-import { capitalise } from "../utils/sharedFunctions"
+import { capitalise, populationDensityCalc } from "../utils/sharedFunctions"
 import blankCoatOfArms from "../images/BlankCoatOfArms.png"
 import "./styles.css"
 
@@ -57,18 +57,20 @@ function Details () {
                             <p className="details-text-l">{countryData.area.toLocaleString("en-US")} km<sup>2</sup></p>
                             <p className="details-text-title-r">Currencies: </p>
                             <p className="details-text-r">{Object.keys(countryData.currencies).map((curr)=>`${countryData.currencies[curr].name} (${countryData.currencies[curr].symbol})`).join(", ")}</p>
-                            <p className="details-text-title-l">Region: </p>
-                            <p className="details-text-l">{countryData.region}</p>
+                            <p className="details-text-title-l">Population Density: </p>
+                            <p className="details-text-l">{populationDensityCalc(countryData.population, countryData.area).toLocaleString("en-US")}/km<sup>2</sup></p>
                             <p className="details-text-title-r">Languages: </p>
                             <p className="details-text-r">{Object.keys(countryData.languages).map((lang)=>`${countryData.languages[lang]}`).join(", ")}</p>
-                            <p className="details-text-title-l">Sub-region: </p>
-                            <p className="details-text-l">{countryData.subregion}</p>
+                            <p className="details-text-title-l">Region: </p>
+                            <p className="details-text-l">{countryData.region}</p>
                             <p className="details-text-title-r">UN Member? </p>
                             <p className="details-text-r">{countryData.unMember ? "Yes" : "No"}</p>
-                            <p className="details-text-title-l">Capital: </p>
-                            <p className="details-text-l">{countryData.capital.map((cap)=>`${cap}`).join(", ")}</p>
+                            <p className="details-text-title-l">Sub-region: </p>
+                            <p className="details-text-l">{countryData.subregion}</p>
                             <p className="details-text-title-r">Landlocked? </p>
                             <p className="details-text-r">{countryData.landlocked ? "Yes": "No"}</p>
+                            <p className="details-text-title-l">Capital: </p>
+                            <p className="details-text-l">{countryData.capital.map((cap)=>`${cap}`).join(", ")}</p>
 
                     </div>
 

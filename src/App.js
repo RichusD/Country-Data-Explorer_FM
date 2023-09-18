@@ -45,12 +45,20 @@ function App() {
 /*           const response = await Axios.get("https://restcountries.com/v3.1/all?fields=name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3,flags,maps,car,area,unMember,landlocked,coatOfArms")
           //Add additional property to enable comparison feature later on
           const dataWithComp = response.data.map((c)=>{
+            // This is needed as there's an error in the API where this nation has an area of -1km2. I got this area from Wikipedia.
+            if (c.name.common === "Svalbard and Jan Mayen"){
+              return {...c, area: 61399, compare:false}
+            }
             return {...c, compare: false}})
           //Set the country data to that version of the data with that added property
           setCountriesData(dataWithComp)
           //Remove loading flag
           setLoading(false) */
           const testingDataWithComp = testingData.map((c)=>{
+            // This is needed as there's an error in the API where this nation has an area of -1km2. I got this area from Wikipedia.
+            if (c.name.common === "Svalbard and Jan Mayen"){
+              return {...c, area: 61399, compare:false}
+            }
             return {...c, compare:false}})
           setCountriesData(testingDataWithComp)
           setLoading(false)

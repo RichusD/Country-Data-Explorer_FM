@@ -2,7 +2,7 @@ import { useContext } from "react"
 
 import "../pages/styles.css"
 import { ComparedCountriesContext, CountriesContext } from "../utils/Contexts"
-import { capitalise, useClickOutside } from "../utils/sharedFunctions"
+import { capitalise, populationDensityCalc, useClickOutside } from "../utils/sharedFunctions"
 import blankCoatOfArms from "../images/BlankCoatOfArms.png"
 
 function CompareWindow ({raiseCompareWindow, setRaiseCompareWindow}) {
@@ -82,6 +82,14 @@ button to work. No idea why but a button that just used (false) would not work u
                         {comparedCountries.map((country)=>{
                             return (
                                 <td key={Math.random()} data-cell={country.name.common}>{country.area.toLocaleString("en-US")}  km<sup>2</sup></td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        <td className="comparison-table-first-column">Population Density</td>
+                        {comparedCountries.map((country)=>{
+                            return (
+                                <td key={Math.random()} data-cell={country.name.common}>{populationDensityCalc(country.population, country.area).toLocaleString("en-US")}/km<sup>2</sup></td>
                             )
                         })}
                     </tr>

@@ -12,7 +12,7 @@ import {
   SortContext
 } from "../utils/Contexts"
 
-import { generateFilter } from "../utils/sharedFunctions"
+import { generateFilter, populationDensityCalc } from "../utils/sharedFunctions"
 
 import {
   drivingSideList,
@@ -23,6 +23,7 @@ import {
 } from "../utils/filterArrays"
 
 import sortOptionsList from "../utils/SortOptions"
+import BackToTopButton from "../components/BackToTopButton"
 
 function CountriesPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -188,6 +189,26 @@ function CountriesPage() {
               return 0
             }
           })
+        } else if (option.name === "Population Density (high to low)"){
+          newList = newList.sort(function (a,b){
+            if (populationDensityCalc(a.population, a.area) < populationDensityCalc(b.population, b.area)){
+              return 1
+            } else if (populationDensityCalc(a.population, a.area) > populationDensityCalc(b.population, b.area)){
+              return -1
+            } else {
+              return 0
+            }
+          })
+        } else if (option.name === "Population Density (low to high)"){
+          newList = newList.sort(function (a,b){
+            if (populationDensityCalc(a.population, a.area) < populationDensityCalc(b.population, b.area)){
+              return -1
+            } else if (populationDensityCalc(a.population, a.area) > populationDensityCalc(b.population, b.area)){
+              return 1
+            } else {
+              return 0
+            }
+          })
         }
       }
     })
@@ -338,6 +359,7 @@ function CountriesPage() {
           raiseCompareWindow={raiseCompareWindow}
           setRaiseCompareWindow={setRaiseCompareWindow}
         />}
+        <BackToTopButton/>
     </>
   )
 }
