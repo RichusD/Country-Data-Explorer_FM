@@ -1,1 +1,6 @@
 name,nativeName,population,region,subregion,capital,tld,currencies,languages,borders,cca3
+
+
+https://www.reddit.com/r/AskHistorians/comments/a715bt/similarity_between_bahraini_and_qatari_flags/
+
+vatican has a higher population density than its population

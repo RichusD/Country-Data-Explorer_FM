@@ -1,4 +1,5 @@
 import {React, useContext, useEffect, useState} from "react"
+import { AnimatePresence } from "framer-motion"
 
 import SearchFilter from "../components/SearchFilter"
 import Countries from "../components/Countries"
@@ -353,12 +354,13 @@ function CountriesPage() {
           displayedCountries={displayedCountries}
           handleComparison={handleComparison}
           />
-
+        <AnimatePresence>
         {showCompareWindow && 
         <CompareWindow
           raiseCompareWindow={raiseCompareWindow}
           setRaiseCompareWindow={setRaiseCompareWindow}
         />}
+        </AnimatePresence>
         <BackToTopButton/>
     </>
   )

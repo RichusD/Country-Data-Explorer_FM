@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import {motion} from "framer-motion"
 import {TiTick} from "react-icons/ti"
 
 import { useClickOutside } from "../utils/sharedFunctions"
@@ -14,7 +15,7 @@ function SortDropdown({setShowSort, handleSortClick}){
         setShowSort(false)})
     
     return (
-        <div ref={sortWindow} className="dropdown-container">
+        <motion.div initial={{y: -10,opacity: 0}} animate={{y:0, opacity: 1}} transition={{duration: 0.1}} exit={{y: -10,opacity: 0}} ref={sortWindow} className="dropdown-container">
             {sortOptions.map((option)=>{
                 return(
                 <div 
@@ -27,7 +28,7 @@ function SortDropdown({setShowSort, handleSortClick}){
                 </div>
                 )
             })}
-        </div>
+        </motion.div>
     )
 }
 

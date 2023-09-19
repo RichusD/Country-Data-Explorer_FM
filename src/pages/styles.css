@@ -96,17 +96,14 @@ nav {
     width: 5rem;
     height: 5rem;
     border-radius: 50%;
-    bottom: 10%;
+    bottom: 5%;
     left: 50%;
-    transform-origin: center;
-
-    transition: 200ms;
 }
-.back-to-top-button:hover{
+/* .back-to-top-button:hover{
     background-color: var(--highlight-red-hover);
     scale: 1.1;
 }
-
+ */
 
 .nav-link{
     text-decoration: none;
@@ -252,10 +249,10 @@ input::placeholder{
     right: 234px;
     width: 250px;
     background-color: white;
-    border: 1px solid var(--body-colour);
     border-radius: 5px;
     opacity: 1;
     overflow: hidden;
+    box-shadow: var(--shadow-setting);
 
 }
 
@@ -410,7 +407,7 @@ article{
 .country-details-wrapper{
     margin-top: 15px;
     display: grid;
-    grid-template-columns: auto 1fr 20px auto 1fr;
+    grid-template-columns: auto minmax(auto,200px) 20px auto minmax(auto,200px);
     gap: 3px
 }
 
@@ -875,7 +872,9 @@ text-align: center;
 /*Search & Filter */
 
 #dark .searchbox,
-#dark .filter-button{
+#dark .filter-button,
+#dark .sort-button,
+#dark .dropdown-container{
     background-color: var(--dark-mode-bg2);
     color: var(--dark-mode-text)
 }
@@ -885,7 +884,9 @@ text-align: center;
     color: var(--dark-mode-text)
 }
 
-#dark .filter-button:hover{
+#dark .filter-button:hover,
+#dark .sort-button:hover,
+#dark .dropdown-item:hover{
     background-color: var(--dark-mode-button-hover);
 }
 

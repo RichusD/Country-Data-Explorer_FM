@@ -1,4 +1,5 @@
 import {TiTick} from "react-icons/ti"
+import { motion, AnimatePresence } from "framer-motion"
 import { capitalise, useClickOutside } from "../utils/sharedFunctions"
 
 function FilterSidebar ({showFilter, setShowFilter, handleFilterClick,filterConditions}) {
@@ -7,8 +8,8 @@ function FilterSidebar ({showFilter, setShowFilter, handleFilterClick,filterCond
 
 
     return ( 
-        <div className={!showFilter ? "hide":"darkness"}>
-            <div ref={outsideRef} className={!showFilter ? "hide":"filter-sidebar-container"}>
+        <motion.div key={"mahsajsha"} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity:0}} className={!showFilter ? "hide":"darkness"}>
+            <motion.div key={"alkjsakj"} initial={{x: "100vw"}} animate={{x:0}} transition={{type: "linear", ease:"easeOut", duration: 0.2}} exit={{x: "100vw"}} ref={outsideRef} className={!showFilter ? "hide":"filter-sidebar-container"}>
                     {Object.keys(filterConditions).map((category)=>{
                         return (
                             <div key={Math.random()}>
@@ -34,8 +35,8 @@ function FilterSidebar ({showFilter, setShowFilter, handleFilterClick,filterCond
                             </div>
                         )
                     })}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     )
 }
 

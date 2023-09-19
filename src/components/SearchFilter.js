@@ -1,5 +1,6 @@
 import {React, useState, useContext} from "react"
 import {BsChevronDown} from "react-icons/bs"
+import { AnimatePresence } from "framer-motion"
 
 import mg from "../images/mag-glass.png"
 import FilterSidebar from "./FilterSidebar"
@@ -41,8 +42,12 @@ function SearchFilter({
         <button onClick={() => showSort ? "" : setShowSort(!showSort)} className="sort-button">Sort <BsChevronDown/></button>
         <button onClick={() => setShowFilter(!showFilter)} className="filter-button">Filter</button>
       </div>
+      <AnimatePresence>
       {showSort && <SortDropdown setShowSort={setShowSort} handleSortClick={handleSortClick}/>}
+      </AnimatePresence>
+      <AnimatePresence>
       {showFilter && <FilterSidebar setShowFilter={setShowFilter} showFilter={showFilter} filterConditions={filterConditions} handleFilterClick={handleFilterClick}/>}
+      </AnimatePresence>
     </div>
   );
 }
