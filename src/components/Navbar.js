@@ -12,9 +12,12 @@ const Navbar = () => {
     const {countriesData} = useContext(CountriesContext)
     const {darkMode, setDarkMode} = useContext(DarkLightModeContext)
 
+    /* I used location.pathname instead of just location here as I found that for some reason when I clicked on a country's comparison box
+    it would cause it to run again. This caused some strange bugs and performance issues.*/
     useEffect(() => {
         randomNum = Math.floor(Math.random() * (countriesData.length +1))
-    }, [location])
+        console.log(location)
+    }, [location.pathname])
 
 
     return (

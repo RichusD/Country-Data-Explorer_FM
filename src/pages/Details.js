@@ -1,9 +1,11 @@
 import { useState, useEffect, useContext } from "react"
 import { Link, useParams, useLocation } from "react-router-dom"
+import { motion } from "framer-motion"
 import {BsArrowLeft} from "react-icons/bs"
 
 import { CountriesContext } from "../utils/Contexts"
 import { capitalise, populationDensityCalc } from "../utils/sharedFunctions"
+import { routeVariants } from "../utils/animationVariants"
 import blankCoatOfArms from "../images/BlankCoatOfArms.png"
 import "./styles.css"
 
@@ -22,7 +24,12 @@ function Details () {
     }, [location])
 
     return !loading ? (
-        <article>
+        <motion.article
+            variants={routeVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+        >
             <Link className="back-link" to="/countries"><BsArrowLeft className="back-arrow"/>Back</Link>
             <div className="all-content-container">
                 <div className="details-title-container">
@@ -91,7 +98,7 @@ function Details () {
 
                 </div>
             </div>
-        </article>
+        </motion.article>
     ) : "LOADING PLEASE WAIT"
 }
 

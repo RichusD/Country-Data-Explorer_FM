@@ -1,5 +1,5 @@
 import {React, useContext, useEffect, useState} from "react"
-import { AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 
 import SearchFilter from "../components/SearchFilter"
 import Countries from "../components/Countries"
@@ -25,6 +25,7 @@ import {
 
 import sortOptionsList from "../utils/SortOptions"
 import BackToTopButton from "../components/BackToTopButton"
+import { routeVariants } from "../utils/animationVariants"
 
 function CountriesPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -38,6 +39,10 @@ function CountriesPage() {
   const {filterConditions, setFilterConditions} = useContext(FiltersContext)
   const {sortOptions, setSortOptions} = useContext(SortContext)
   
+  useEffect(()=>{
+    console.log("RERENDER")
+  }) 
+
   //This handles the actual filter and search together
   function filterAndSearch(currentSearchTerm, filterConditions){
     //Create array to hold what will be the filtered list
@@ -289,14 +294,18 @@ function CountriesPage() {
   }
   /* This handles where a comparison tickbox is clicked. It finds the country that was clicked,  */
   function handleComparison(name){
-    const dataCopy = [...displayedCountries]
+
+    const dataCopy = displayedCountries.map((country)=>{return {...country}})
     const checkedCountryIndex = dataCopy.findIndex((country)=>country.name.common === name)
+
     dataCopy[checkedCountryIndex].compare = !dataCopy[checkedCountryIndex].compare
-    if (dataCopy[checkedCountryIndex].compare){
+
+/*     if (dataCopy[checkedCountryIndex].compare){
       setComparedCountries((prev)=> [...prev, dataCopy[checkedCountryIndex]])
     } else if (!dataCopy[checkedCountryIndex].compare){
       setComparedCountries(comparedCountries.filter((country)=> country.name.common !== dataCopy[checkedCountryIndex].name.common))
-    }
+    } */
+    setDisplayedCountries(dataCopy)
   }
   /* Once countries have been ticked, check to see if at least two have been chosen, and show the compare window if so */
   useEffect(()=>{
@@ -315,29 +324,30 @@ function CountriesPage() {
   }
 
   function handleClearFilters (){
+    const freshFilter = generateFilter(
+      countriesData,
+      drivingSideList,
+      UNMemberList,
+      landlockedList,
+      populationList,
+      areaList,
+    )
+
     setFilterActive(false)
     setSearchTerm("")
-    setFilterConditions(
-      generateFilter(
-        countriesData,
-        drivingSideList,
-        UNMemberList,
-        landlockedList,
-        populationList,
-        areaList,
-      )
-    )
+    setFilterConditions(freshFilter)
+    filterAndSearch("",freshFilter)
+
   }
 
-  useEffect(()=>{
-    if (!filterActive){
-      filterAndSearch(searchTerm,filterConditions)
-    }
-  },[filterConditions])
-  
 
   return (
-    <>
+    <motion.div className="test-div"
+      variants={routeVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
         <SearchFilter 
           showCompareWindow={showCompareWindow}
           searchTerm={searchTerm}
@@ -348,6 +358,7 @@ function CountriesPage() {
           filterActive={filterActive}
           handleClearFilters={handleClearFilters}
           handleSortClick={handleSortClick}
+          variants={routeVariants}
         />
 
         <Countries 
@@ -362,7 +373,7 @@ function CountriesPage() {
         />}
         </AnimatePresence>
         <BackToTopButton/>
-    </>
+    </motion.div>
   )
 }
 

@@ -22,7 +22,7 @@ function RaisedCompareWindow ({raiseCompareWindow, setRaiseCompareWindow}) {
 change again if a button did the opposite. I had to change setRaiseCompareWindow(true) to setRaiseCompareWindow(!raiseCompareWindow) for the
 button to work. No idea why but a button that just used (false) would not work under any circumstances.*/
     return (
-        <motion.div initial={{y:50, opacity:0}} animate={{y:0, opacity:1}} transition={{ease: "easeOut",type: "linear", duration:0.2}} exit={{y:50, opacity:0}}ref={compWindowRef} className="comparison-window-active">
+        <motion.div key={Math.random()}initial={{y:50, opacity:0}} animate={{y:0, opacity:1}} transition={{ease: "easeOut",type: "linear", duration:0.2}} exit={{y:50, opacity:0}}ref={compWindowRef} className="comparison-window-active">
             <h2 className="comparison-heading">Compare Countries</h2>
             <table className="comparison-table" >
                 <thead>

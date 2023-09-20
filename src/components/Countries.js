@@ -1,10 +1,10 @@
-import { useContext } from "react"
+import { motion } from "framer-motion"
+import { filterVariants } from "../utils/animationVariants"
 
 import CountryCard from "./CountryCard"
-import { DarkLightModeContext } from "../utils/Contexts"
+
 
 function Countries({displayedCountries, handleComparison}) {
-    const {darkMode} = useContext(DarkLightModeContext)
     let countrycards
 
     if (displayedCountries.length === 0){
@@ -32,9 +32,9 @@ function Countries({displayedCountries, handleComparison}) {
     }
 
     return (
-        <section className={`countries-grid ${darkMode ? "dark-mode" : ""}`}>
+        <motion.section layout className="countries-grid">
             {countrycards}
-        </section>
+        </motion.section>
     );
   }
   

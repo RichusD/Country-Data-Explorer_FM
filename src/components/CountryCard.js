@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { filterVariants } from "../utils/animationVariants";
 
 function CountryCard({flag, flagAlt, name, population, region, capital, code, comparison, handleComparison}) {
 
   return (
-    <div className="card">
+    <AnimatePresence>
+    <motion.div 
+    variants={filterVariants}
+    initial="hidden"
+    animate="visible"
+    layout
+
+    className="card">
         <img className="flag-image" src={flag} alt={flagAlt} preserveAspectRatio="false"></img>
         <div className="card-text">
             <Link to={`/countries/${code}`}><h3 className="countrycard-title">{name}</h3></Link>
@@ -15,7 +24,8 @@ function CountryCard({flag, flagAlt, name, population, region, capital, code, co
               <p><span>Compare? </span></p><input type="checkbox" checked={comparison} onChange={()=> handleComparison(name)}></input>
             </div>
         </div>
-    </div>
+    </motion.div>
+    </AnimatePresence>
   );
 }
 

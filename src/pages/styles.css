@@ -56,6 +56,7 @@ body{
     "search"
     "mainContent"
     "footer";
+    overflow-x: hidden;
 }
 
 .master-container a{
@@ -828,6 +829,29 @@ text-align: center;
     text-decoration: none;
     margin: 0 0.5ch;
 }
+
+.test-div{
+    grid-row: 2 / span 2;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    grid-template-areas: 
+    "search"
+    "mainContent";
+}
+/* ##### HOMEPAGE ##################################### */
+.homepage-container{
+    grid-row: 2 / span 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.homepage-container h2{
+    font-size: 15rem;
+    text-align: center;
+}
+
 
 /* ##### DARK MODE CLASSES ##################################### */
 /* General */

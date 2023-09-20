@@ -1,6 +1,7 @@
 import Axios from "axios";
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import { Routes, Route, useLocation} from "react-router-dom"
 import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import "./pages/styles.css"
 
 import SharedLayout from "./pages/SharedLayout";
@@ -39,6 +40,12 @@ function App() {
   const [sortOptions, setSortOptions] = useState([...sortOptionsList])
   const [darkMode, setDarkMode] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  const location = useLocation()
+
+  useEffect(()=>{
+    console.log("App level rerender")
+  })
 
   useEffect(() => {
     const getData = async () =>{
@@ -87,7 +94,6 @@ function App() {
     
 }, [countriesData])
 
-
   return !loading ? (    
     <div id={`${darkMode ? "dark" : "light"}`} className="master-container">
       <CountriesContext.Provider value={{countriesData, setCountriesData}}>
@@ -96,8 +102,9 @@ function App() {
       <DisplayedCountriesContext.Provider value={{displayedCountries, setDisplayedCountries}}>
       <FiltersContext.Provider value={{filterConditions, setFilterConditions}}>
       <SortContext.Provider value={{sortOptions, setSortOptions}}>
-        <BrowserRouter>
-          <Routes>
+        {/*use mode="wait" so that the next page doesn't try to load while the current one is animating out, causing layout issues.*/}
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.key}>
             <Route path="/" element={<SharedLayout/>}>
               <Route index element={<Homepage/>}/>
               <Route path="/countries" element={<CountriesPage/>}/>
@@ -105,7 +112,7 @@ function App() {
               <Route path="*" element={<ErrorPage/>}/>
             </Route>
           </Routes>
-        </BrowserRouter>
+        </AnimatePresence>
       </SortContext.Provider>
       </FiltersContext.Provider>
       </DisplayedCountriesContext.Provider>

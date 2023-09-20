@@ -21,7 +21,7 @@ function SortDropdown({setShowSort, handleSortClick}){
                 <div 
                     key={Math.random()}
                     data-sortoption={option.name}
-                    onClick={(event)=>handleSortClick(event)}
+                    onClick={(event)=>{handleSortClick(event); setShowSort(false)}}
                     className={`${option.checked ? "dropdown-item-checked" : "dropdown-item"}`}
                 >
                     <p>{option.name}</p> {option.checked ? <TiTick/> : ""}
